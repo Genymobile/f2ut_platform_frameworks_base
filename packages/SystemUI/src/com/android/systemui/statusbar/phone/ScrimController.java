@@ -20,8 +20,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.NonNull;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -53,11 +59,14 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
 
     private final ScrimView mScrimBehind;
     private final ScrimView mScrimInFront;
+    private final View mScrimMood;
     private final UnlockMethodCache mUnlockMethodCache;
     private final DozeParameters mDozeParameters;
 
     private boolean mKeyguardShowing;
     private float mFraction;
+    private Drawable mBatteryMood;
+    private BroadcastReceiver mBatteryLevelReceiver;
 
     private boolean mDarkenWhileDragging;
     private boolean mBouncerShowing;
@@ -76,15 +85,27 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
     private BackDropView mBackDropView;
     private boolean mScrimSrcEnabled;
 
-    public ScrimController(ScrimView scrimBehind, ScrimView scrimInFront, boolean scrimSrcEnabled) {
+    public ScrimController(ScrimView scrimBehind, ScrimView scrimInFront, View scrimMood, boolean scrimSrcEnabled) {
         mScrimBehind = scrimBehind;
         mScrimInFront = scrimInFront;
+        mScrimMood = scrimMood;
         final Context context = scrimBehind.getContext();
         mUnlockMethodCache = UnlockMethodCache.getInstance(context);
         mLinearOutSlowInInterpolator = AnimationUtils.loadInterpolator(context,
                 android.R.interpolator.linear_out_slow_in);
         mDozeParameters = new DozeParameters(context);
         mScrimSrcEnabled = scrimSrcEnabled;
+
+        mBatteryLevelReceiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent){
+                mBatteryMood = getMoodFromBattery(intent);
+                scheduleUpdate();
+            }
+        };
+        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        mBatteryMood = getMoodFromBattery(context.registerReceiver(null, batteryLevelFilter));
+        context.registerReceiver(mBatteryLevelReceiver, batteryLevelFilter);
     }
 
     public void setKeyguardShowing(boolean showing) {
@@ -200,9 +221,11 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
         if (mAnimateKeyguardFadingOut) {
             setScrimInFrontColor(0f);
             setScrimBehindColor(0f);
+            setScrimMood(null, 0f);
         } else if (!mKeyguardShowing && !mBouncerShowing) {
             updateScrimNormal();
             setScrimInFrontColor(0);
+            setScrimMood(null, 0f);
         } else {
             updateScrimKeyguard();
         }
@@ -216,7 +239,13 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
             fraction = (float) Math.pow(fraction, 0.8f);
             behindFraction = (float) Math.pow(behindFraction, 0.8f);
             setScrimInFrontColor(fraction * SCRIM_IN_FRONT_ALPHA);
-            setScrimBehindColor(behindFraction * SCRIM_BEHIND_ALPHA_KEYGUARD);
+            float behindAlpha = behindFraction * SCRIM_BEHIND_ALPHA_KEYGUARD;
+            setScrimMood(mBatteryMood, behindAlpha);
+            if (mBatteryMood != null) {
+                setScrimBehindColor(0f);
+            } else {
+                setScrimBehindColor(behindAlpha);
+            }
         } else if (mBouncerShowing) {
             setScrimInFrontColor(SCRIM_IN_FRONT_ALPHA);
             setScrimBehindColor(0f);
@@ -225,9 +254,44 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
         } else {
             float fraction = Math.max(0, Math.min(mFraction, 1));
             setScrimInFrontColor(0f);
-            setScrimBehindColor(fraction
+            float behindAlpha = fraction
                     * (SCRIM_BEHIND_ALPHA_KEYGUARD - SCRIM_BEHIND_ALPHA_UNLOCKING)
-                    + SCRIM_BEHIND_ALPHA_UNLOCKING);
+                    + SCRIM_BEHIND_ALPHA_UNLOCKING;
+            setScrimMood(mBatteryMood, behindAlpha);
+            if (mBatteryMood != null) {
+                setScrimBehindColor(0f);
+            } else {
+                setScrimBehindColor(behindAlpha);
+            }
+        }
+    }
+
+    private Drawable getMoodFromBattery(Intent batteryIntent) {
+        if (!isMoodEnabled()) {
+            return null;
+        }
+        Context context = mScrimBehind.getContext();
+        int level = 100;
+        if (batteryIntent != null) {
+            int rawlevel = batteryIntent.getIntExtra("level", -1);
+            int scale = batteryIntent.getIntExtra("scale", -1);
+
+            // obtain the level at 0 - 100
+            if (rawlevel >= 0 && scale > 0) {
+                level = (rawlevel * 100) / scale;
+            }
+        }
+        
+        if (level <= 20) {
+            return context.getResources().getDrawable(R.drawable.pink_gradient_20);
+        } else if (level <= 40) {
+            return context.getResources().getDrawable(R.drawable.yellow_gradient_40);
+        } else if (level <= 60) {
+            return context.getResources().getDrawable(R.drawable.green_gradient_60);
+        } else if (level <= 80) {
+            return context.getResources().getDrawable(R.drawable.emerald_gradient_80);
+        } else {
+            return context.getResources().getDrawable(R.drawable.blue_gradient_100);
         }
     }
 
@@ -259,6 +323,25 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
         }
     }
 
+    private void setScrimMood(Drawable bg, float alpha) {
+        if(bg == null) {
+            mScrimMood.setBackgroundResource(0);
+            mScrimMood.setAlpha(0f);
+        } else {
+            Drawable curr = mScrimMood.getBackground();
+            if (curr != null) {
+                curr = ((TransitionDrawable) curr).getDrawable(1);
+            } else {
+                curr = bg;
+            }
+            TransitionDrawable td = new TransitionDrawable(new Drawable[]{curr, bg});
+            td.setCrossFadeEnabled(true);
+            td.startTransition(1000);
+            mScrimMood.setBackground(td);
+            mScrimMood.setAlpha(alpha);
+        }
+    }
+
     private void setScrimColor(ScrimView scrim, float alpha) {
         Object runningAnim = scrim.getTag(TAG_KEY_ANIM);
         if (runningAnim instanceof ValueAnimator) {
@@ -273,18 +356,21 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
         }
     }
 
-    private void startScrimAnimation(final ScrimView scrim, int targetColor) {
-        int current = Color.alpha(scrim.getScrimColor());
-        int target = Color.alpha(targetColor);
+    private void startScrimAnimation(final ScrimView scrim, final int targetColor) {
+        final int current = scrim.getScrimColor();
         if (current == targetColor) {
             return;
         }
-        ValueAnimator anim = ValueAnimator.ofInt(current, target);
+        ValueAnimator anim = ValueAnimator.ofFloat(0, 1f);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                scrim.setScrimColor(Color.argb(value, 0, 0, 0));
+                float value = (float) animation.getAnimatedValue();
+                int alpha = (int)(((1f-value) * Color.alpha(current)) + (value * Color.alpha(targetColor)));
+                int red = (int)(((1f-value) * Color.red(current)) + (value * Color.red(targetColor)));
+                int green = (int)(((1f-value) * Color.green(current)) + (value * Color.green(targetColor)));
+                int blue = (int)(((1f-value) * Color.blue(current)) + (value * Color.blue(targetColor)));
+                scrim.setScrimColor(Color.argb(alpha, red, green, blue));
             }
         });
         anim.setInterpolator(mAnimateKeyguardFadingOut
@@ -374,6 +460,10 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
             pulseFinished();
         }
     };
+
+    public boolean isMoodEnabled(){
+        return true;// TODO: get mood enabled from setting
+    }
 
     public void setBackDropView(BackDropView backDropView) {
         mBackDropView = backDropView;

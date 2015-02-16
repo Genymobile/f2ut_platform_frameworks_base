@@ -773,7 +773,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         ScrimView scrimBehind = (ScrimView) mStatusBarWindow.findViewById(R.id.scrim_behind);
         ScrimView scrimInFront = (ScrimView) mStatusBarWindow.findViewById(R.id.scrim_in_front);
-        mScrimController = new ScrimController(scrimBehind, scrimInFront, mScrimSrcModeEnabled);
+        View scrimMood = (View) mStatusBarWindow.findViewById(R.id.scrim_mood);
+        mScrimController = new ScrimController(scrimBehind, scrimInFront, scrimMood, mScrimSrcModeEnabled);
         mScrimController.setBackDropView(mBackdrop);
         mStatusBarView.setScrimController(mScrimController);
 
