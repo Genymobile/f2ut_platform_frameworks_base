@@ -2066,6 +2066,10 @@ public class AudioService extends IAudioService.Stub {
             return;
         }
 
+        if (mode == AudioSystem.MODE_TEST_CALL) {
+            mode = AudioSystem.MODE_IN_CALL;
+        }
+
         if (mode < AudioSystem.MODE_CURRENT || mode >= AudioSystem.NUM_MODES) {
             return;
         }

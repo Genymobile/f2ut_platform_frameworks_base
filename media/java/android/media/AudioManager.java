@@ -1732,6 +1732,10 @@ public class AudioManager {
      * In call audio mode. A telephony call is established.
      */
     public static final int MODE_IN_CALL            = AudioSystem.MODE_IN_CALL;
+
+    /** @hide */
+    public static final int MODE_TEST_CALL          = AudioSystem.MODE_TEST_CALL;
+
     /**
      * In communication audio mode. An audio/video chat or VoIP call is established.
      */

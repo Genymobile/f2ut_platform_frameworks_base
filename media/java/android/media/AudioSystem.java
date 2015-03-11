@@ -91,6 +91,9 @@ public class AudioSystem
     public static final int MODE_IN_COMMUNICATION   = 3;
     public static final int NUM_MODES               = 4;
 
+    /** @hide */
+    public static final int MODE_TEST_CALL          = 99;
+
 
     /* Call states for Voice calls */
     /* @hide Call state for inactive call state. */
