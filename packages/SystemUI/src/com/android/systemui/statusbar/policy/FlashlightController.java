@@ -311,7 +311,11 @@ public class FlashlightController {
             new CameraCaptureSession.StateListener() {
         @Override
         public void onConfigured(CameraCaptureSession session) {
-            mSession = session;
+            if (session.getDevice() == mCameraDevice) {
+                mSession = session;
+            } else {
+                session.close();
+            }
             postUpdateFlashlight();
         }
 
