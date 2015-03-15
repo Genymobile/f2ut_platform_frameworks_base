@@ -114,10 +114,6 @@ public final class ParcelableConference implements Parcelable {
         return mVideoState;
     }
 
-    public long getConnectTimeMillis() {
-        return mConnectTimeMillis;
-    }
-
     public static final Parcelable.Creator<ParcelableConference> CREATOR =
             new Parcelable.Creator<ParcelableConference> () {
         @Override
