@@ -2573,12 +2573,19 @@ public class NotificationManagerService extends SystemService {
             }
         }
 
+        Notification notification = null;
+        boolean isTest = false;
+        if (mLedNotification != null) {
+            notification = mLedNotification.sbn.getNotification();
+            isTest = (notification.flags & Notification.FLAG_TEST_LED) != 0;
+        }
+
         // Don't flash while we are in a call or screen is on
-        if (mLedNotification == null || mInCall || mScreenOn) {
+        if (!isTest && (mLedNotification == null || mInCall || mScreenOn)) {
             mNotificationLight.turnOff();
             mStatusBar.notificationLightOff();
         } else {
-            final Notification ledno = mLedNotification.sbn.getNotification();
+            final Notification ledno = notification;
             int ledARGB = ledno.ledARGB;
             int ledOnMS = ledno.ledOnMS;
             int ledOffMS = ledno.ledOffMS;
@@ -2587,7 +2594,7 @@ public class NotificationManagerService extends SystemService {
                 ledOnMS = mDefaultNotificationLedOn;
                 ledOffMS = mDefaultNotificationLedOff;
             }
-            if (mNotificationPulseEnabled) {
+            if (isTest || mNotificationPulseEnabled) {
                 // pulse repeatedly
                 mNotificationLight.setFlashing(ledARGB, Light.LIGHT_FLASH_TIMED,
                         ledOnMS, ledOffMS);
