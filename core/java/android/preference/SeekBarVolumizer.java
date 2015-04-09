@@ -177,7 +177,7 @@ public class SeekBarVolumizer implements OnSeekBarChangeListener, Handler.Callba
         mContext.getContentResolver().unregisterContentObserver(mVolumeObserver);
         mSeekBar.setOnSeekBarChangeListener(null);
         mReceiver.setListening(false);
-        mHandler.getLooper().quitSafely();
+        //mHandler.getLooper().quitSafely();
     }
 
     public void revertVolume() {
