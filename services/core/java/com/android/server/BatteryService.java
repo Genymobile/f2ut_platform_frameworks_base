@@ -104,6 +104,9 @@ public final class BatteryService extends SystemService {
     // This should probably be exposed in the API, though it's not critical
     private static final int BATTERY_PLUGGED_NONE = 0;
 
+    //Controls shutdown requests.
+    private boolean mShutDownRequested = false;
+
     private final Context mContext;
     private final IBatteryStats mBatteryStats;
     private final Handler mHandler;
@@ -257,7 +260,7 @@ public final class BatteryService extends SystemService {
     private void shutdownIfNoPowerLocked() {
         // shut down gracefully if our battery is critically low and we are not powered.
         // wait until the system has booted before attempting to display the shutdown dialog.
-        if (mBatteryProps.batteryLevel == 0 && !isPoweredLocked(BatteryManager.BATTERY_PLUGGED_ANY)) {
+        if (!mShutDownRequested && mBatteryProps.batteryLevel == 0 && !isPoweredLocked(BatteryManager.BATTERY_PLUGGED_ANY)) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -266,7 +269,8 @@ public final class BatteryService extends SystemService {
                         Intent intent = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
                         intent.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivityAsUser(intent, UserHandle.CURRENT);
+                        mContext.sendBroadcastAsUser(intent, UserHandle.ALL);
+                        mShutDownRequested=true;
                     }
                 }
             });
@@ -286,7 +290,7 @@ public final class BatteryService extends SystemService {
                         Intent intent = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
                         intent.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivityAsUser(intent, UserHandle.CURRENT);
+                        mContext.sendBroadcastAsUser(intent, UserHandle.ALL);
                     }
                 }
             });
