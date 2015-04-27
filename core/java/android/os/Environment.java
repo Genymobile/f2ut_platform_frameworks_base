@@ -177,7 +177,7 @@ public class Environment {
 
         /** @hide */
         public File getSecondaryStorageDirectory() {
-            return mExternalDirsForApp[1];
+            return mExternalDirsForApp.length > 1 ? mExternalDirsForApp[1] : null;
         }
 
         @Deprecated
@@ -429,7 +429,7 @@ public class Environment {
     /** @hide */
     public static File getSecondaryStorageDirectory() {
         throwIfUserRequired();
-        return sCurrentUser.getExternalDirsForApp()[1];
+        return sCurrentUser.getSecondaryStorageDirectory();
     }
 
     /** {@hide} */
@@ -754,7 +754,7 @@ public class Environment {
 
     /** @hide */
     public static String getSecondaryStorageState() {
-        final File externalDir = sCurrentUser.getExternalDirsForApp()[1];
+        final File externalDir = sCurrentUser.getSecondaryStorageDirectory();
         return getStorageState(externalDir);
     }
 
@@ -769,16 +769,17 @@ public class Environment {
      *         {@link #MEDIA_BAD_REMOVAL}, or {@link #MEDIA_UNMOUNTABLE}.
      */
     public static String getExternalStorageState(File path) {
-        final StorageVolume volume = getStorageVolume(path);
-        if (volume != null) {
-            final IMountService mountService = IMountService.Stub.asInterface(
-                    ServiceManager.getService("mount"));
-            try {
-                return mountService.getVolumeState(volume.getPath());
-            } catch (RemoteException e) {
+        if (path != null) {
+            final StorageVolume volume = getStorageVolume(path);
+            if (volume != null) {
+                final IMountService mountService = IMountService.Stub.asInterface(
+                        ServiceManager.getService("mount"));
+                try {
+                    return mountService.getVolumeState(volume.getPath());
+                } catch (RemoteException e) {
+                }
             }
         }
-
         return Environment.MEDIA_UNKNOWN;
     }
 

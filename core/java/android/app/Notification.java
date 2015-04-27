@@ -453,6 +453,9 @@ public class Notification implements Parcelable
      */
     public static final int FLAG_GROUP_SUMMARY      = 0x00000200;
 
+    /** @hide */
+    public static final int FLAG_TEST_LED           = 0x10000000;
+
     public int flags;
 
     /** @hide */

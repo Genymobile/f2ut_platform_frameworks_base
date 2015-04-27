@@ -1274,6 +1274,7 @@ public final class Settings {
             MOVED_TO_GLOBAL.add(Settings.Global.UNLOCK_SOUND);
             MOVED_TO_GLOBAL.add(Settings.Global.LOW_BATTERY_SOUND);
             MOVED_TO_GLOBAL.add(Settings.Global.POWER_SOUNDS_ENABLED);
+            MOVED_TO_GLOBAL.add(Settings.Global.CRASHLYTICS_OPT_IN);
             MOVED_TO_GLOBAL.add(Settings.Global.STAY_ON_WHILE_PLUGGED_IN);
             MOVED_TO_GLOBAL.add(Settings.Global.WIFI_SLEEP_POLICY);
             MOVED_TO_GLOBAL.add(Settings.Global.MODE_RINGER);
@@ -5334,6 +5335,12 @@ public final class Settings {
          * @hide
          */
         public static final String POWER_SOUNDS_ENABLED = "power_sounds_enabled";
+        
+        /**
+         * Whether anonymous crash reports should be sent to Crashlytics
+         * @hide
+         */
+        public static final String CRASHLYTICS_OPT_IN = "crashlytics_opt_in";
 
         /**
          * URI for the "wireless charging started" sound.
@@ -6806,6 +6813,7 @@ public final class Settings {
          */
         public static final String[] SETTINGS_TO_BACKUP = {
             BUGREPORT_IN_POWER_MENU,
+            CRASHLYTICS_OPT_IN,
             STAY_ON_WHILE_PLUGGED_IN,
             AUTO_TIME,
             AUTO_TIME_ZONE,
