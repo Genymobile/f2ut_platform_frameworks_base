@@ -26,6 +26,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.HardwareCanvas;
 import android.view.RenderNodeAnimator;
 import android.view.View;
@@ -339,8 +340,18 @@ public class KeyButtonRipple extends Drawable {
         mRunningAnimations.add(opacityAnim);
 
         invalidateSelf();
+        mHandler.postDelayed(new Runnable(){
+            @Override
+            public void run(){
+                if (mRunningAnimations.contains(opacityAnim)) {
+                    mRunningAnimations.remove(opacityAnim);
+                    mTargetView.clearAnimation();
+                }
+            }
+        }, ANIMATION_DURATION_FADE);
     }
 
+    private Handler mHandler = new Handler();
     private final AnimatorListenerAdapter mAnimatorListener =
             new AnimatorListenerAdapter() {
         @Override
