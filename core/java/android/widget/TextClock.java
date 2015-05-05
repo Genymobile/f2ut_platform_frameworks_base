@@ -27,6 +27,10 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.format.DateFormat;
@@ -544,6 +548,18 @@ public class TextClock extends TextView {
 
     private void onTimeChanged() {
         mTime.setTimeInMillis(System.currentTimeMillis());
-        setText(DateFormat.format(mFormat, mTime));
+        if (!DateFormat.is24HourFormat(getContext()) && mFormat.toString().contains("h")) {
+            String tmp = DateFormat.format(DEFAULT_FORMAT_12_HOUR, mTime).toString();
+            int index = tmp.indexOf(" ");
+            if (index < 0) {
+                setText(tmp);
+            } else {
+                SpannableString sp = new SpannableString(tmp);
+                sp.setSpan(new RelativeSizeSpan(0.5f), index, tmp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                setText(sp);
+            }
+        } else {
+            setText(DateFormat.format(mFormat, mTime));
+        }
     }
 }
