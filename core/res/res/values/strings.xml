@@ -4091,12 +4091,12 @@
     <string name="ext_media_safe_unmount_notification_message" product="default">You can safely remove SD card.</string>
 
     <!-- Shown when external media is missing [CHAR LIMIT=30] -->
-    <string name="ext_media_nomedia_notification_title" product="nosdcard">Removed USB storage</string>
+    <string name="ext_media_nomedia_notification_title" product="nosdcard">Removed SD card</string>
     <!-- Shown when external media is missing -->
-    <string name="ext_media_nomedia_notification_title" product="default">Removed SD card</string>
+    <string name="ext_media_nomedia_notification_title" product="default">Removed USB storage</string>
     <!-- Shown when external media is missing.  [CHAR LIMIT=NONE] -->
-    <string name="ext_media_nomedia_notification_message" product="nosdcard">USB storage removed. Insert new media.</string>
-    <string name="ext_media_nomedia_notification_message" product="default">SD card removed. Insert a new one.</string>
+    <string name="ext_media_nomedia_notification_message" product="nosdcard">SD card removed. Insert a new one.</string>
+    <string name="ext_media_nomedia_notification_message" product="default">USB storage removed. Insert new media.</string>
 
     <!-- Shown in LauncherActivity when the requested target Intent didn't return any matching Activities, leaving the list empty. -->
     <string name="activity_list_empty">No matching activities found.</string>
