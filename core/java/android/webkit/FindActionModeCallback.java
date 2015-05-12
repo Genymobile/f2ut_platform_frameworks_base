@@ -163,11 +163,11 @@ public class FindActionModeCallback implements ActionMode.Callback, TextWatcher,
         if (!isEmptyFind) {
             mNumberOfMatches = matchCount;
             mActiveMatchIndex = matchIndex;
-            updateMatchesString();
         } else {
             mMatches.setVisibility(View.GONE);
             mNumberOfMatches = 0;
         }
+        updateMatchesString();
     }
 
     /*
@@ -175,6 +175,10 @@ public class FindActionModeCallback implements ActionMode.Callback, TextWatcher,
      * which match is currently highlighted.
      */
     private void updateMatchesString() {
+        if (mEditText.getText().toString() == null || mEditText.getText().toString().length() == 0) {
+            mMatches.setVisibility(View.GONE);
+            return;
+        }
         if (mNumberOfMatches == 0) {
             mMatches.setText(com.android.internal.R.string.no_matches);
         } else {
