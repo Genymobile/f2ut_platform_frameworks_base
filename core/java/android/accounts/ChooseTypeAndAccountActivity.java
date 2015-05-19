@@ -323,6 +323,7 @@ public class ChooseTypeAndAccountActivity extends Activity
                     String accountType = data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
                     if (accountType != null) {
                         runAddAccountForAuthenticator(accountType);
+                        setResultAndFinish("", accountType);
                         return;
                     }
                 }
