@@ -284,7 +284,7 @@ public class QuickContactBadge extends ImageView implements OnClickListener {
         // If contact has been assigned, mExtras should no longer be null, but do a null check
         // anyway just in case assignContactFromPhone or Email was called with a null bundle or
         // wasn't assigned previously.
-        final Bundle extras = (mExtras == null) ? new Bundle() : mExtras;
+        final Bundle extras = (mExtras == null) ? new Bundle() : new Bundle(mExtras);
         if (mContactUri != null) {
             QuickContact.showQuickContact(getContext(), QuickContactBadge.this, mContactUri,
                     QuickContact.MODE_LARGE, mExcludeMimes);
