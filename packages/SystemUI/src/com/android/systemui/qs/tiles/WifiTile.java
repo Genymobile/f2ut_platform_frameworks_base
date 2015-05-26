@@ -300,6 +300,7 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
             }
         }
 
+        @Override
         public void onSettingsActivityTriggered(Intent settingsIntent) {
             mHost.startSettingsActivity(settingsIntent);
         }
