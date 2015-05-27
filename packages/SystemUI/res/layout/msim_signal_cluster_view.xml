@@ -97,6 +97,7 @@
             android:layout_height="6dp"
             android:layout_width="6dp"
             android:visibility="invisible"
+            android:id="@+id/mobile_combo_spacer"
             />
         <FrameLayout
             android:id="@+id/mobile_combo"
@@ -200,6 +201,7 @@
             android:layout_height="6dp"
             android:layout_width="6dp"
             android:visibility="invisible"
+            android:id="@+id/mobile_combo_sub2_spacer"
             />
         <FrameLayout
             android:id="@+id/mobile_combo_sub2"
@@ -280,6 +282,7 @@
             android:layout_height="6dp"
             android:layout_width="6dp"
             android:visibility="invisible"
+            android:id="@+id/mobile_combo_sub3_spacer"
             />
         <FrameLayout
             android:id="@+id/mobile_combo_sub3"

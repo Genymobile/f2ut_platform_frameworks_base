@@ -36,7 +36,6 @@ import android.widget.LinearLayout;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.systemui.statusbar.policy.NetworkControllerImpl;
 import com.android.systemui.statusbar.policy.MSimNetworkControllerImpl;
-
 import com.android.systemui.R;
 
 
@@ -103,6 +102,8 @@ public class MSimSignalClusterView
     //spacer
     private View mSpacer;
 
+    private View mSpacerGroup[];
+
     private int[] mMobileGroupResourceId = {R.id.mobile_combo, R.id.mobile_combo_sub2,
                                           R.id.mobile_combo_sub3};
     private int[] mMobileResourceId = {R.id.mobile_signal, R.id.mobile_signal_sub2,
@@ -122,6 +123,8 @@ public class MSimSignalClusterView
             R.id.mobile_signal_data_sub2, R.id.mobile_signal_data_sub3};
     private int[] mMobileSignalVoiceResourceId = {R.id.mobile_signal_voice,
             R.id.mobile_signal_voice_sub2, R.id.mobile_signal_voice_sub3};
+    private int[] mSpacerGroupResourceId = {R.id.mobile_combo_spacer,
+            R.id.mobile_combo_sub2_spacer, R.id.mobile_combo_sub3_spacer};
     private final int mNumPhones = TelephonyManager.getDefault().getPhoneCount();
 
     public MSimSignalClusterView(Context context) {
@@ -154,6 +157,7 @@ public class MSimSignalClusterView
         mMobileDataVoiceGroup = new ViewGroup[mNumPhones];
         mMobileSignalData = new ImageView[mNumPhones];
         mMobileSignalVoice = new ImageView[mNumPhones];
+        mSpacerGroup = new View[mNumPhones];
         for (int i=0; i < mNumPhones; i++) {
             mMobileStrengthId[i] = 0;
             mMobileTypeId[i] = 0;
@@ -203,6 +207,7 @@ public class MSimSignalClusterView
                     (ImageView) findViewById(mMobileSignalDataResourceId[i]);
             mMobileSignalVoice[i] =
                     (ImageView) findViewById(mMobileSignalVoiceResourceId[i]);
+            mSpacerGroup[i] = findViewById(mSpacerGroupResourceId[i]);
         }
 
         mMobileCdmaGroup    = (ViewGroup) findViewById(R.id.mobile_signal_cdma);
@@ -233,6 +238,7 @@ public class MSimSignalClusterView
             mMobileDataVoiceGroup[i] = null;
             mMobileSignalData[i] = null;
             mMobileSignalVoice[i] = null;
+            mSpacerGroup[i] = null;
         }
         mMobileCdmaGroup    = null;
         mMobileCdma3g       = null;
@@ -338,6 +344,7 @@ public class MSimSignalClusterView
     @Override
     public void setIsAirplaneMode(boolean is, int airplaneIconId) {
         mIsAirplaneMode = is;
+	mMobileVisible = (!is);
         mAirplaneIconId = airplaneIconId;
         for (int i = 0; i < mNumPhones; i++) {
             apply(i);
@@ -437,11 +444,13 @@ public class MSimSignalClusterView
             updateData(phoneId);
             updateDataVoice(phoneId);
             mMobileGroup[phoneId].setVisibility(View.VISIBLE);
+            mSpacerGroup[phoneId].setVisibility(View.INVISIBLE);
         } else {
             mMobileGroup[phoneId].setVisibility(View.GONE);
             mMobileCdmaGroup.setVisibility(View.GONE);
             mMobileCdma1xOnly.setVisibility(View.GONE);
             mDataGroup[phoneId].setVisibility(View.GONE);
+            mSpacerGroup[phoneId].setVisibility(View.GONE);
         }
 
         if (mIsAirplaneMode) {
