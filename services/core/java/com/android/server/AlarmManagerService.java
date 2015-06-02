@@ -82,7 +82,7 @@ class AlarmManagerService extends SystemService {
     // duration is in milliseconds.
     private static final long POWER_OFF_ALARM_THRESHOLD = 120 * 1000;
     // Minimum futurity of a new alarm
-    private static final long MIN_FUTURITY = 5 * 1000;  // 5 seconds, in millis
+    private static final long MIN_FUTURITY = 0 * 1000;  // 0 seconds, in millis
 
     // Minimum alarm recurrence interval
     private static final long MIN_INTERVAL = 60 * 1000;  // one minute, in millis
