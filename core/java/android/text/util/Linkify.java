@@ -227,7 +227,9 @@ public class Linkify {
         }
 
         if ((mask & PHONE_NUMBERS) != 0) {
-            gatherTelLinks(links, text);
+            gatherLinks(links, text, Patterns.PHONE,
+                new String[] { "tel:" },
+                sPhoneNumberMatchFilter, sPhoneNumberTransformFilter);
         }
 
         if ((mask & MAP_ADDRESSES) != 0) {
