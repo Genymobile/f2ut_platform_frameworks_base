@@ -2640,6 +2640,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             loadBooleanSetting(stmt, Settings.Global.MOBILE_DATA,
                     R.bool.def_enable_mobile_data);
 
+            loadSetting(stmt, Settings.Global.MULTI_SIM_DATA_CALL_SUBSCRIPTION, 0);
+
             int phoneCount = TelephonyManager.getDefault().getPhoneCount();
             // SUB specific flags for Multisim devices
             for (int phoneId = 0; phoneId < MAX_PHONE_COUNT; phoneId++) {
