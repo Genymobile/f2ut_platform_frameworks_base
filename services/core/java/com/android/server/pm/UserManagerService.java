@@ -394,6 +394,9 @@ public class UserManagerService extends IUserManager.Stub {
                 Slog.w(LOG_TAG, "setUserName: unknown user #" + userId);
                 return;
             }
+            if ((name == null || name.length() <= 0) && userId == UserHandle.USER_OWNER) {
+                name = mContext.getResources().getString(com.android.internal.R.string.owner_name);
+            }
             if (name != null && !name.equals(info.name)) {
                 info.name = name;
                 writeUserLocked(info);
