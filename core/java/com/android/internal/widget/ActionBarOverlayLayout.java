@@ -251,6 +251,7 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         super.onConfigurationChanged(newConfig);
         init(getContext());
         requestApplyInsets();
+        setUiOptions(mUiOptions);
     }
 
     @Override
@@ -692,8 +693,11 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         }
     }
 
+    private int mUiOptions = 0;
+
     @Override
     public void setUiOptions(int uiOptions) {
+        mUiOptions = uiOptions;
         boolean splitActionBar = false;
         final boolean splitWhenNarrow =
                 (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
