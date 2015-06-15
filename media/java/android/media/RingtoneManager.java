@@ -31,6 +31,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.System;
 import android.util.Log;
+import android.os.UserHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -737,6 +738,21 @@ public class RingtoneManager {
     }
 
     /**
+     * Returns the {@link Uri} for the static default ringtone.
+     * Rather than returning the actual ringtone's sound {@link Uri}, this will
+     * return the default system ringtone. When actual ringtone is not valid
+     * in media provider, default system ringtone is the one to rollback to.
+     *
+     * @return The {@link Uri} of the default system ringtone.
+     * @hide
+     */
+    public static Uri getStaticDefaultRingtoneUriByUserID(Context context, int userHandle) {
+        final String uriString = Settings.System.getStringForUser(
+                context.getContentResolver(), Settings.System.DEFAULT_RINGTONE.toString(), userHandle);
+        return uriString != null ? Uri.parse(uriString) : null;
+    }
+
+    /**
      * Returns the subscription ID of {@link Uri}.
      *
      * @param defaultRingtoneUri The default {@link Uri}. For example,
@@ -834,6 +850,49 @@ public class RingtoneManager {
 
         return ringToneUri;
     }
+
+    /**
+         * Gets the current default sound's {@link Uri}. This will give the actual
+         * sound {@link Uri}, instead of using this, most clients can use
+         * {@link System#DEFAULT_RINGTONE_URI}.
+         *
+         * @param context A context used for querying.
+         * @param subId The Subscription ID.
+         * @param userHandle current UserHandle.
+         * @return A {@link Uri} pointing to the default sound for the sound type.
+         * @hide
+         */
+        public static Uri getActualRingtoneUriBySubIdAndUserID(Context context, int subId, int userHandle) {
+            if (!(subId >= 0 &&  subId < Settings.System.MAX_NUM_RINGTONES)) {
+                return null;
+            }
+            String setting;
+            if (subId == 0) {
+                setting = Settings.System.RINGTONE;
+            } else {
+                setting = Settings.System.RINGTONE + "_" + (subId + 1);
+            }
+
+            final String uriString = Settings.System.getStringForUser(context.getContentResolver(), setting, userHandle);
+            if (uriString == null) {
+                return null;
+            }
+
+            Uri ringToneUri = getStaticDefaultRingtoneUriByUserID(context, userHandle);
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver().query(Uri.parse(uriString),
+                        null, null, null, null);
+                if ((cursor != null) && (cursor.getCount() > 0)) {
+                    ringToneUri = Uri.parse(uriString);
+                }
+            } catch (SQLiteException ex) {
+                Log.e(TAG, "ex " + ex);
+            } finally {
+                if (cursor != null) cursor.close();
+            }
+            return ringToneUri;
+        }
 
     /**
      * Sets the {@link Uri} of the default sound for a given sound type.
