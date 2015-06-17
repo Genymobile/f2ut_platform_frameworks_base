@@ -28,9 +28,9 @@
     <dimen name="preference_widget_width">72dp</dimen>
 
     <!-- Default height of an action bar. -->
-    <dimen name="action_bar_default_height">40dip</dimen>
+    <dimen name="action_bar_default_height">48dip</dimen>
     <!-- Vertical padding around action bar icons. -->
-    <dimen name="action_bar_icon_vertical_padding">4dip</dimen>
+    <dimen name="action_bar_icon_vertical_padding">8dip</dimen>
     <!-- Text size for action bar titles -->
     <dimen name="action_bar_title_text_size">16dp</dimen>
     <!-- Text size for action bar subtitles -->
