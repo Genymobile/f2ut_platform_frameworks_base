@@ -160,7 +160,14 @@ public abstract class SQLiteOpenHelper {
      */
     public SQLiteDatabase getWritableDatabase() {
         synchronized (this) {
-            return getDatabaseLocked(true);
+            SQLiteDatabase db = null;
+            try {
+                db = getDatabaseLocked(true);
+            } catch (Exception e)  {
+                Log.e(TAG, "getWritableDatabase error: " + e);
+                e.printStackTrace();
+            }
+            return db;
         }
     }
 
@@ -184,7 +191,14 @@ public abstract class SQLiteOpenHelper {
      */
     public SQLiteDatabase getReadableDatabase() {
         synchronized (this) {
-            return getDatabaseLocked(false);
+            SQLiteDatabase db = null;
+            try {
+                db = getDatabaseLocked(false);
+            } catch (Exception e)  {
+                Log.e(TAG, "getReadableDatabase error: " + e);
+                e.printStackTrace();
+            }
+            return db;
         }
     }
 

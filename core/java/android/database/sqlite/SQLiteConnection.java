@@ -553,6 +553,9 @@ public final class SQLiteConnection implements CancellationSignal.OnCancelListen
                 attachCancellationSignal(cancellationSignal);
                 try {
                     nativeExecute(mConnectionPtr, statement.mStatementPtr);
+                } catch (Exception e) {
+                    Log.e(TAG, "execute error: " + e);
+                    e.printStackTrace();
                 } finally {
                     detachCancellationSignal(cancellationSignal);
                 }
