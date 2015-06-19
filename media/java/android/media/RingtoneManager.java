@@ -893,6 +893,40 @@ public class RingtoneManager {
             }
             return ringToneUri;
         }
+    
+    /**
+     * Gets the current default sound's {@link Uri}. This will give the actual
+     * sound {@link Uri}, instead of using this, most clients can use
+     * {@link System#DEFAULT_RINGTONE_URI}.
+     *
+     * @param context A context used for querying.
+     * @param subId The Subscription ID.
+     * @param userHandle current UserHandle.
+     * @return A {@link Uri} pointing to the default sound for the sound type.
+     * @hide
+     */
+    public static Uri getActualRingtoneUriByUserID(Context context, int userHandle) {
+        String setting = Settings.System.RINGTONE;
+        final String uriString = Settings.System.getStringForUser(context.getContentResolver(), setting, userHandle);
+        if (uriString == null) {
+            return null;
+        }
+
+        Uri ringToneUri = getStaticDefaultRingtoneUriByUserID(context, userHandle);
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(Uri.parse(uriString),
+                    null, null, null, null);
+            if ((cursor != null) && (cursor.getCount() > 0)) {
+                ringToneUri = Uri.parse(uriString);
+            }
+        } catch (SQLiteException ex) {
+            Log.e(TAG, "ex " + ex);
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return ringToneUri;
+    }
 
     /**
      * Sets the {@link Uri} of the default sound for a given sound type.
