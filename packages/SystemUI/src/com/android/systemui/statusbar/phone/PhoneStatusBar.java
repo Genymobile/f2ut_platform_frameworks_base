@@ -861,9 +861,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mStatusBarView.findViewById(R.id.msim_signal_cluster);
             MSimSignalClusterView signalClusterKeyguard = (MSimSignalClusterView)
                     mKeyguardStatusBar.findViewById(R.id.msim_signal_cluster);
+            MSimSignalClusterView signalClusterQs =
+                    (MSimSignalClusterView) mHeader.findViewById(R.id.msim_signal_cluster);
             for (int i = 0; i < TelephonyManager.getDefault().getPhoneCount(); i++) {
                 mMSimNetworkController.addSignalCluster(signalCluster, i);
                 mMSimNetworkController.addSignalCluster(signalClusterKeyguard, i);
+                mMSimNetworkController.addSignalCluster(signalClusterQs, i);
+
             }
             signalCluster.setNetworkController(mMSimNetworkController);
             signalClusterKeyguard.setNetworkController(mMSimNetworkController);

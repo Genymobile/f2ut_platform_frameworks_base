@@ -154,7 +154,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mBatteryLevel = (TextView) findViewById(R.id.battery_level);
         mAlarmStatus = (TextView) findViewById(R.id.alarm_status);
         mAlarmStatus.setOnClickListener(this);
-        mSignalCluster = findViewById(R.id.signal_cluster);
+        mSignalCluster = findViewById(R.id.msim_signal_cluster);
         mSystemIcons = (LinearLayout) findViewById(R.id.system_icons);
         loadDimens();
         updateVisibilities();
