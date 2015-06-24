@@ -185,6 +185,7 @@ public class CastTile extends QSTile<QSTile.BooleanState> {
             mItems.setEmptyState(R.drawable.ic_qs_cast_detail_empty,
                     R.string.quick_settings_cast_detail_empty_text);
             mItems.setCallback(this);
+            mItems.setMinHeightInItems(0);
             updateItems(mController.getCastDevices());
             mController.setDiscovering(true);
             return mItems;
