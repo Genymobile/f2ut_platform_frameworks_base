@@ -177,7 +177,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         mPreviewInflater = new PreviewInflater(mContext, new LockPatternUtils(mContext));
         inflatePreviews();
         mLockIcon.setOnClickListener(this);
-        mLockIcon.setBackground(mTrustDrawable);
+        //mLockIcon.setBackground(mTrustDrawable);
         mLockIcon.setOnLongClickListener(this);
         mCameraImageView.setOnClickListener(this);
         mPhoneImageView.setOnClickListener(this);
