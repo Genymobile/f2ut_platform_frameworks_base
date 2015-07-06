@@ -1413,6 +1413,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     @Override
     public void addNotification(StatusBarNotification notification, RankingMap ranking) {
         if (DEBUG) Log.d(TAG, "addNotification key=" + notification.getKey());
+        Log.d(TAG, "mUseHeadsUp:"+mUseHeadsUp+", shouldInterrupt:"+shouldInterrupt(notification));
         if (mUseHeadsUp && shouldInterrupt(notification)) {
             if (DEBUG) Log.d(TAG, "launching notification in heads up mode");
             Entry interruptionCandidate = new Entry(notification, null);
