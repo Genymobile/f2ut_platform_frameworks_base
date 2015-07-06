@@ -1874,4 +1874,7 @@
     <string name="stk_cc_ss_to_dial" msgid="2151304435775557162">"SS-запрос преобразован в DIAL-запрос."</string>
     <string name="stk_cc_ss_to_ussd" msgid="3951862188105305589">"SS-запрос преобразован в USSD-запрос."</string>
     <string name="stk_cc_ss_to_ss" msgid="5470768854991452695">"SS-запрос преобразован в новый SS-запрос."</string>
+    <string name="reboot_title">Перезагрузить</string>
+    <string name="reboot_confirm" product="default">Телефон будет перезагружен.</string>
+    <string name="global_action_reboot">Перезагрузить</string>
 </resources>
