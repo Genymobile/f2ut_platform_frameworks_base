@@ -198,7 +198,7 @@ public class PowerNotificationWarnings implements PowerUI.WarningsUI {
         }
         if (mPlaySound) {
             attachLowBatterySound(nb);
-            mPlaySound = false;
+            //mPlaySound = false;
         }
         final Notification n = nb.build();
         if (n.headsUpContentView != null) {
