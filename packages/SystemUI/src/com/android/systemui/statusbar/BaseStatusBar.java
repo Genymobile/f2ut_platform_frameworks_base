@@ -2112,6 +2112,14 @@ public abstract class BaseStatusBar extends SystemUI implements
         } catch (RemoteException e) {
             Log.d(TAG, "failed to query dream manager", e);
         }
+        if (!interrupt) {
+            Log.d(TAG, "!mStatusBarKeyguardViewManager.isShowing:"+!mStatusBarKeyguardViewManager.isShowing()
+                +", mStatusBarKeyguardViewManager.isOccluded:"+mStatusBarKeyguardViewManager.isOccluded()
+                +", !mStatusBarKeyguardViewManager.isInputRestricted:"+!mStatusBarKeyguardViewManager.isInputRestricted()
+                +", isFullscreen:"+isFullscreen+", isHighPriority:"+isHighPriority+", isNoisy:"+isNoisy+", hasTicker:"+hasTicker
+                +", isAllowed:"+isAllowed+", !accessibilityForcesLaunch:"+!accessibilityForcesLaunch+", isScreenOn:"
+                +mPowerManager.isScreenOn());
+        }
         if (DEBUG) Log.d(TAG, "interrupt: " + interrupt);
         return interrupt;
     }
