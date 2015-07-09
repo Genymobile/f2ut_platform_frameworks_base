@@ -206,11 +206,6 @@ public abstract class AbstractCursor implements CrossProcessCursor {
             return false;
         }
 
-        // Check for no-op moves, and skip the rest of the work for them
-        if (position == mPos) {
-            return true;
-        }
-
         boolean result = onMove(mPos, position);
         if (result == false) {
             mPos = -1;
