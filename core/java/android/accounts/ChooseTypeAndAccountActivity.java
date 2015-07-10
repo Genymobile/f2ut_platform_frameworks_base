@@ -424,7 +424,6 @@ public class ChooseTypeAndAccountActivity extends Activity
             Log.v(TAG, "ChooseTypeAndAccountActivity.setResultAndFinish: "
                     + "selected account " + accountName + ", " + accountType);
         }
-        finish();
     }
 
     private void startChooseAccountTypeActivity() {
