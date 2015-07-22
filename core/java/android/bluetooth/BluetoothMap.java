@@ -268,6 +268,9 @@ public final class BluetoothMap implements BluetoothProfile {
             } catch (RemoteException e) {
                 Log.e(TAG, Log.getStackTraceString(new Throwable()));
                 return new ArrayList<BluetoothDevice>();
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(new Throwable()));
+                return new ArrayList<BluetoothDevice>();
             }
         }
         if (mService == null) Log.w(TAG, "Proxy not attached to service");
@@ -305,6 +308,9 @@ public final class BluetoothMap implements BluetoothProfile {
             try {
                 return mService.getConnectionState(device);
             } catch (RemoteException e) {
+                Log.e(TAG, Log.getStackTraceString(new Throwable()));
+                return BluetoothProfile.STATE_DISCONNECTED;
+            } catch (Exception e) {
                 Log.e(TAG, Log.getStackTraceString(new Throwable()));
                 return BluetoothProfile.STATE_DISCONNECTED;
             }
