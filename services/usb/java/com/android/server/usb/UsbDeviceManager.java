@@ -672,6 +672,9 @@ public class UsbDeviceManager {
                             R.bool.always_popup_usb_computer_connection_option)) {
                         updateState(bootState(mConnected, mConfigured));
                     }
+                    if (mConnected) {
+                        updateUsbNotification();
+                    }
                     break;
                 case MSG_USER_SWITCHED: {
                     UserManager userManager =
