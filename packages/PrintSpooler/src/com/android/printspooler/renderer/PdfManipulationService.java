@@ -380,7 +380,9 @@ public final class PdfManipulationService extends Service {
                 if (DEBUG) {
                     Log.i(LOG_TAG, "closeDocument()");
                 }
-                mEditor.close();
+                if(mEditor != null) {
+                    mEditor.close();
+                }
                 mEditor = null;
             }
         }
