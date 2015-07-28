@@ -869,7 +869,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mMSimNetworkController.addSignalCluster(signalClusterQs, i);
 
             }
+            signalCluster.setSecurityController(mSecurityController);
             signalCluster.setNetworkController(mMSimNetworkController);
+            signalClusterKeyguard.setSecurityController(mSecurityController);
             signalClusterKeyguard.setNetworkController(mMSimNetworkController);
 
             mMSimNetworkController.addEmergencyLabelView(mHeader);

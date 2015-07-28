@@ -36,13 +36,15 @@ import android.widget.LinearLayout;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.systemui.statusbar.policy.NetworkControllerImpl;
 import com.android.systemui.statusbar.policy.MSimNetworkControllerImpl;
+import com.android.systemui.statusbar.policy.SecurityController;
 import com.android.systemui.R;
 
 
 // Intimately tied to the design of res/layout/msim_signal_cluster_view.xml
 public class MSimSignalClusterView
         extends LinearLayout
-        implements MSimNetworkControllerImpl.MSimSignalCluster {
+        implements MSimNetworkControllerImpl.MSimSignalCluster,
+        SecurityController.SecurityControllerCallback {
 
     static final boolean DEBUG = true;
     static final String TAG = "MSimSignalClusterView";
@@ -56,6 +58,7 @@ public class MSimSignalClusterView
     private int[] mShowTwoBars;
 
     MSimNetworkControllerImpl mMSimNC;
+    SecurityController mSC;
 
     private boolean mWifiVisible = false;
     private int mWifiStrengthId = 0, mWifiActivityId = 0;
@@ -68,10 +71,11 @@ public class MSimSignalClusterView
     private int mAirplaneIconId = 0;
     private String mWifiDescription, mMobileTypeDescription;
     private String[] mMobileDescription;
+    private boolean mVpnVisible = false;
 
     ViewGroup mWifiGroup;
     ViewGroup[] mMobileGroup;
-    ImageView mWifi, mWifiActivity, mAirplane;
+    ImageView mWifi, mWifiActivity, mAirplane, mVpn;
     ImageView[] mNoSimSlot;
     ImageView[] mMobile;
     ImageView[] mMobileActivity;
@@ -190,6 +194,7 @@ public class MSimSignalClusterView
         mWifiActivity   = (ImageView) findViewById(R.id.wifi_inout);
         mSpacer         =             findViewById(R.id.spacer);
         mAirplane       = (ImageView) findViewById(R.id.airplane);
+        mVpn            = (ImageView) findViewById(R.id.vpn);
 
         for (int i = 0; i < mNumPhones; i++) {
             mMobileGroup[i]    = (ViewGroup) findViewById(mMobileGroupResourceId[i]);
@@ -227,6 +232,7 @@ public class MSimSignalClusterView
         mWifiActivity   = null;
         mSpacer         = null;
         mAirplane       = null;
+        mVpn            = null;
         for (int i = 0; i < mNumPhones; i++) {
             mMobileGroup[i]    = null;
             mMobile[i]         = null;
@@ -344,7 +350,7 @@ public class MSimSignalClusterView
     @Override
     public void setIsAirplaneMode(boolean is, int airplaneIconId) {
         mIsAirplaneMode = is;
-	mMobileVisible = (!is);
+        mMobileVisible = (!is);
         mAirplaneIconId = airplaneIconId;
         for (int i = 0; i < mNumPhones; i++) {
             apply(i);
@@ -424,6 +430,8 @@ public class MSimSignalClusterView
     // Run after each indicator change.
     private void apply(int phoneId) {
         if (mWifiGroup == null) return;
+
+        mVpn.setVisibility(mVpnVisible ? View.VISIBLE : View.GONE);
 
         if (mWifiVisible) {
             mWifiGroup.setVisibility(View.VISIBLE);
@@ -809,5 +817,25 @@ public class MSimSignalClusterView
                 break;
         }
         return returnVal;
+    }
+
+    public void setSecurityController(SecurityController sc) {
+        mSC = sc;
+        mSC.addCallback(this);
+        mVpnVisible = mSC.isVpnEnabled();
+    }
+
+    // From SecurityController.
+    @Override
+    public void onStateChanged() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mVpnVisible = mSC.isVpnEnabled();
+                for (int i = 0; i < mNumPhones; i++) {
+                    apply(i);
+                }
+            }
+        });
     }
 }
