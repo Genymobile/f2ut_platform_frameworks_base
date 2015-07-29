@@ -174,4 +174,13 @@
     <color name="Pink_800">#ffad1457</color>
     <color name="Red_700">#ffc53929</color>
     <color name="Red_800">#ffb93221</color>
+
+    <!-- Fairphone Colors -->
+    <color name="fp_blue">#2aa8e0</color>
+    <color name="fp_blue_dark">#005599</color>
+    <color name="fp_blue_dark_2">#123c59</color>
+    <color name="fp_manufacturing_green">#287955</color>
+    <color name="fp_design_pink">#d7617f</color>
+    <color name="fp_life_cycle_green">#92b851</color>
+    <color name="fp_mining_yellow">#f5a833</color>
 </resources>
