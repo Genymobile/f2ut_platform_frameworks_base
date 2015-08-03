@@ -84,7 +84,7 @@ public class DeviceStorageMonitorService extends SystemService {
 
     private static final int DEFAULT_FREE_STORAGE_LOG_INTERVAL_IN_MINUTES = 12*60; //in minutes
     private static final long DEFAULT_DISK_FREE_CHANGE_REPORTING_THRESHOLD = 2 * 1024 * 1024; // 2MB
-    private static final long DEFAULT_CHECK_INTERVAL = MONITOR_INTERVAL*60*1000;
+    private static final long DEFAULT_CHECK_INTERVAL = MONITOR_INTERVAL*3*1000;
 
     private long mFreeMem;  // on /data
     private long mFreeMemAfterLastCacheClear;  // on /data
