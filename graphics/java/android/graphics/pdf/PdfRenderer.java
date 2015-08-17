@@ -150,9 +150,13 @@ public final class PdfRenderer implements AutoCloseable {
         }
 
         mInput = input;
-        mNativeDocument = nativeCreate(mInput.getFd(), size);
-        mPageCount = nativeGetPageCount(mNativeDocument);
-        mCloseGuard.open("close");
+        try {
+            mNativeDocument = nativeCreate(mInput.getFd(), size);
+            mPageCount = nativeGetPageCount(mNativeDocument);
+            mCloseGuard.open("close");
+        } catch (Exception e) {
+            throw new IOException("No space for preview document");
+        }
     }
 
     /**
