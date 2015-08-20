@@ -140,8 +140,8 @@ class TelephonyIcons {
     };
 
     static final int[] QS_DATA_H = {
-                R.drawable.ic_qs_signal_h,
-                R.drawable.ic_qs_signal_h
+                R.drawable.stat_sys_data_connected_hp,
+                R.drawable.stat_sys_data_connected_hp
     };
 
     //CDMA
