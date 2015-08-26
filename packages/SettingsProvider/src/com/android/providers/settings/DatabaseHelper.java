@@ -90,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Maximum number of phones
     private static final int MAX_PHONE_COUNT = 3;
+    private static final int DEFAULT_NETWORK_TYPE =1;
 
     static {
         mValidTables.add(TABLE_SYSTEM);
@@ -2717,7 +2718,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             String val = Integer.toString(type);
             for (int phoneId = 1; phoneId < phoneCount; phoneId++) {
-                val = val + "," + type;
+                val = val + "," + DEFAULT_NETWORK_TYPE;
             }
 
             loadSetting(stmt, Settings.Global.PREFERRED_NETWORK_MODE, val);
