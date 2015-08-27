@@ -27,4 +27,6 @@
     <!-- Clock -->
     <color name="clock_white">#ffffffff</color>
     <color name="clock_gray">#99ffffff</color>
+
+    <color name="fairphone_blue">#2aa8e0</color>
 </resources>
