@@ -90,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Maximum number of phones
     private static final int MAX_PHONE_COUNT = 3;
-    private static final int DEFAULT_NETWORK_TYPE =1;
+    private static final int DEFAULT_NETWORK_TYPE =9;
 
     static {
         mValidTables.add(TABLE_SYSTEM);
