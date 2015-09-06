@@ -21,6 +21,7 @@
 <com.android.keyguard.KeyguardStatusView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:androidprv="http://schemas.android.com/apk/res-auto"
+    xmlns:fairphone_clock_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/keyguard_status_view"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -34,6 +35,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:orientation="vertical" >
+        <com.android.keyguard.FairphoneClockView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            fairphone_clock_view:showOnly="all"
+            android:layout_marginBottom="@dimen/bottom_text_spacing_digital" />
         <TextClock
             android:id="@+id/clock_view"
             android:layout_width="wrap_content"
@@ -44,9 +51,12 @@
             style="@style/widget_big_thin"
             android:format12Hour="@string/keyguard_widget_12_hours_format"
             android:format24Hour="@string/keyguard_widget_24_hours_format"
-            android:layout_marginBottom="@dimen/bottom_text_spacing_digital" />
+            android:layout_marginBottom="@dimen/bottom_text_spacing_digital"
+            android:visibility="gone" />
 
-        <include layout="@layout/keyguard_status_area" />
+        <include
+            layout="@layout/keyguard_status_area"
+            android:visibility="gone" />
         <TextView
             android:id="@+id/owner_info"
             android:layout_marginLeft="16dp"

@@ -141,4 +141,15 @@
     <declare-styleable name="CarrierText">
         <attr name="allCaps" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="FairphoneClockView">
+        <attr name="showOnly">
+            <flag name="clock" value="0x1"/>
+            <flag name="pom" value="0x2"/>
+            <flag name="battery" value="0x4"/>
+            <flag name="yours" value="0x8"/>
+            <flag name="all" value="0xf" />
+        </attr>
+    </declare-styleable>
+
 </resources>
