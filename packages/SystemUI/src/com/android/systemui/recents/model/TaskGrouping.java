@@ -30,6 +30,7 @@ public class TaskGrouping {
 
     /** Removes a task from this group. */
     void removeTask(Task t) {
+        if (t == null || mTaskKeys == null)return;
         mTaskKeys.remove(t.key);
         latestActiveTimeInGroup = 0;
         int taskCount = mTaskKeys.size();
