@@ -221,9 +221,11 @@ public class TaskStack {
             mTaskList.remove(t);
             // Remove it from the group as well, and if it is empty, remove the group
             TaskGrouping group = t.group;
-            group.removeTask(t);
-            if (group.getTaskCount() == 0) {
-                removeGroup(group);
+            if (group != null){
+                group.removeTask(t);
+                if (group.getTaskCount() == 0) {
+                    removeGroup(group);
+                }
             }
             // Update the lock-to-app state
             t.lockToThisTask = false;
