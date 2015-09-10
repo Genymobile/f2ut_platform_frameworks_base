@@ -135,6 +135,7 @@ public class FairphoneClockData
 
 	public static void sendLastLongerBroadcast(Context context)
 	{
+		FairphoneClockView.dismissKeyguardOnNextActivity();
 		context.startActivity(new Intent(Intent.ACTION_POWER_USAGE_SUMMARY).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 	}
 

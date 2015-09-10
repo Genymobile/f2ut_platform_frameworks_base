@@ -3,6 +3,7 @@ package com.android.keyguard;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -10,6 +11,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -17,6 +19,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManagerGlobal;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,6 +93,18 @@ public class FairphoneClockView extends LinearLayout
 		super.onDetachedFromWindow();
 	}
 
+        private final OnClickListener editClickListener = new OnClickListener()
+        {
+                @Override
+                public void onClick(View v)
+                {
+			Intent launchIntent = Intent.makeMainActivity(new ComponentName("com.android.deskclock", "com.android.deskclock.DeskClock"));
+			dismissKeyguardOnNextActivity();
+			UserHandle user = new UserHandle(UserHandle.USER_CURRENT);
+			getContext().startActivityAsUser(launchIntent, null, user);
+                }
+        };
+
 	private final OnClickListener shareClickListener = new OnClickListener()
 	{
 		@Override
@@ -114,9 +129,10 @@ public class FairphoneClockView extends LinearLayout
 
 				sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
 				sendIntent = Intent.createChooser(sendIntent, getResources().getString(R.string.share_to));
-				sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				//ClockScreenService.dismissKeyguard();
-				getContext().startActivity(sendIntent);
+				sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				dismissKeyguardOnNextActivity();
+				UserHandle user = new UserHandle(UserHandle.USER_CURRENT);
+				getContext().startActivityAsUser(sendIntent, null, user);
 			}
 		}
 	};
@@ -202,7 +218,6 @@ public class FairphoneClockView extends LinearLayout
 
 	private void init(AttributeSet attrs)
 	{
-		Log.wtf(TAG, "init");
 		if (attrs != null)
 		{
 			TypedArray a = getContext().getTheme().obtainStyledAttributes(
@@ -282,6 +297,8 @@ public class FairphoneClockView extends LinearLayout
 		mMonthsText = (TextView) mRootView.findViewById(R.id.months_text);
 		mElapsedDaysText = (TextView) mRootView.findViewById(R.id.eleapsed_days_text);
 		mDaysText = (TextView) mRootView.findViewById(R.id.days_text);
+
+		mRootView.findViewById(R.id.clock_edit_button).setOnClickListener(editClickListener);
 
 		mRootView.findViewById(R.id.peace_share_button).setOnClickListener(shareClickListener);
 		mRootView.findViewById(R.id.yours_since_share_button).setOnClickListener(shareClickListener);
@@ -669,5 +686,13 @@ public class FairphoneClockView extends LinearLayout
 //				"diffHours "+diffHours;
 //		}
 // --Commented out by Inspection STOP (26/08/15 20:58)
+	}
+
+	public static void dismissKeyguardOnNextActivity() {
+		try {
+			WindowManagerGlobal.getWindowManagerService().dismissKeyguard();
+		} catch (Exception e) {
+			Log.e(TAG, "Error dismissing keyguard", e);
+		}
 	}
 }
