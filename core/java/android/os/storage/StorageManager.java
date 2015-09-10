@@ -575,7 +575,19 @@ public class StorageManager {
             int length = list.length;
             StorageVolume[] result = new StorageVolume[length];
             for (int i = 0; i < length; i++) {
-                result[i] = (StorageVolume)list[i];
+                if (length == 3) {
+                    if (list[i].toString().contains("emulated")) {
+                        result[0] = (StorageVolume) list[i];
+                    }
+                    if (list[i].toString().contains("sdcard1")) {
+                        result[1] = (StorageVolume) list[i];
+                    }
+                    if (list[i].toString().contains("usbotg")) {
+                        result[2] = (StorageVolume) list[i];
+                    }
+                } else {
+                    result[i] = (StorageVolume) list[i];
+                }
             }
             return result;
         } catch (RemoteException e) {
