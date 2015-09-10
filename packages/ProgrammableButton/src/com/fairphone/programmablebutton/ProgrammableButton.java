@@ -24,7 +24,7 @@ public class ProgrammableButton extends Activity {
 		setContentView(R.layout.activity_main);
 
 		SharedPreferences preferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-		String intentAction = preferences.getString(CAMERA_BUTTON_INTENT_PREF, MediaStore.ACTION_IMAGE_CAPTURE);
+		String intentAction = preferences.getString(CAMERA_BUTTON_INTENT_PREF, MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
 
 		TextView currentIntent = (TextView) findViewById(R.id.currentIntent);
 		currentIntent.setText(intentAction);
@@ -33,10 +33,9 @@ public class ProgrammableButton extends Activity {
 
 		String[] items = {
 				ACTION_IGNORE,
-				MediaStore.ACTION_IMAGE_CAPTURE,
-				MediaStore.ACTION_IMAGE_CAPTURE_SECURE,
-				MediaStore.ACTION_VIDEO_CAPTURE,
 				MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA,
+				MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE,
+				MediaStore.INTENT_ACTION_VIDEO_CAMERA,
 				Settings.ACTION_SETTINGS,
 				Settings.ACTION_WIRELESS_SETTINGS,
 				Settings.ACTION_AIRPLANE_MODE_SETTINGS,
