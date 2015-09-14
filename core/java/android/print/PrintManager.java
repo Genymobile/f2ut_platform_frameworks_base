@@ -988,7 +988,7 @@ public final class PrintManager {
 
                 try {
                     callback.onWriteFailed(error, mSequence);
-                } catch (RemoteException re) {
+                } catch (RemoteException | IllegalStateException re) {
                     Log.e(LOG_TAG, "Error calling onWriteFailed", re);
                 } finally {
                     destroy();
