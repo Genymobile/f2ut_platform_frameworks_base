@@ -205,14 +205,11 @@ public abstract class ContentProvider implements ComponentCallbacks2 {
                 ICancellationSignal cancellationSignal) {
             validateIncomingUri(uri);
             uri = getUriWithoutUserId(uri);
-            try {
-                if (enforceReadPermission(callingPkg, uri, null) != AppOpsManager.MODE_ALLOWED) {
-                    return rejectQuery(uri, projection, selection, selectionArgs, sortOrder,
-                           CancellationSignal.fromTransport(cancellationSignal));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (enforceReadPermission(callingPkg, uri, null) != AppOpsManager.MODE_ALLOWED) {
+                return rejectQuery(uri, projection, selection, selectionArgs, sortOrder,
+                       CancellationSignal.fromTransport(cancellationSignal));
             }
+
             final String original = setCallingPackage(callingPkg);
             try {
                 return ContentProvider.this.query(
