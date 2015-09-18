@@ -62,7 +62,7 @@ public class QSContainer extends FrameLayout {
      * during closing the detail panel, this already returns the smaller height.
      */
     public int getDesiredHeight() {
-        if (mQSPanel.isClosingDetail()) {
+        if (mQSPanel.isClosingDetail() && mHeightOverride != -1) {
             return mQSPanel.getGridHeight() + getPaddingTop() + getPaddingBottom();
         } else {
             return getMeasuredHeight();
