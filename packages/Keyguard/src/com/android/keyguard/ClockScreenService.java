@@ -20,7 +20,8 @@ public class ClockScreenService extends Service
 
 	private static final String TAG = ClockScreenService.class.getSimpleName();
 
-	public static final String ACTION_ALARM_CHANGED = "android.intent.action.ALARM_CHANGED";
+	public static final String ACTION_ALARM_CHANGED_V18 = "android.intent.action.ALARM_CHANGED";
+	public static final String ACTION_ALARM_CHANGED = "android.app.action.NEXT_ALARM_CLOCK_CHANGED";
 	public static final String ACTION_CLOCK_UPDATE = "com.fairphone.clock.widget.ClockWidget.CLOCK_UPDATE";
 
 	public static final long MINUTES_IN_MILIS = 60000L;
@@ -138,6 +139,7 @@ public class ClockScreenService extends Service
 					FairphoneClockData.sendUpdateBroadcast(context);
 				}
 				else if (action.equals(ACTION_ALARM_CHANGED) ||
+                                                action.equals(ACTION_ALARM_CHANGED_V18) ||
 						action.equals(Intent.ACTION_TIME_CHANGED) ||
 						action.equals(Intent.ACTION_TIMEZONE_CHANGED))
 				{
@@ -146,6 +148,7 @@ public class ClockScreenService extends Service
 			}
 		};
 		IntentFilter actions = new IntentFilter(ACTION_ALARM_CHANGED);
+		actions.addAction(ACTION_ALARM_CHANGED_V18);
 		actions.addAction(ACTION_CLOCK_UPDATE);
 		actions.addAction(Intent.ACTION_TIME_CHANGED);
 		actions.addAction(Intent.ACTION_TIMEZONE_CHANGED);
