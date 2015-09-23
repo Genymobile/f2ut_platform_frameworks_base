@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="31dp"
+        android:layout_marginLeft="31.3dp"
         android:gravity="left"
         android:text="@string/battery_charge_will_last_until" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="78dp"
-        android:layout_marginLeft="31dp"
+        android:layout_marginLeft="31.5dp"
         android:layout_marginTop="35dp"
         android:orientation="horizontal">
 
@@ -106,7 +106,8 @@
 
                 <TextView
                     android:id="@+id/battery_am_pm_indicator"
-                    style="@style/text_thin_37sp_alpha"
+                    style="@style/text_thin_37sp"
+                    android:textAllCaps="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|left"
