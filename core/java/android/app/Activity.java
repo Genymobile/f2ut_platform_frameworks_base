@@ -3985,10 +3985,6 @@ public class Activity extends ContextThemeWrapper
     }
 
 
-    private enum PrivacyImpactAvailability { UNKNOWN, UNAVAILABLE, AVAILABLE }
-    private static PrivacyImpactAvailability pi_status = PrivacyImpactAvailability.UNKNOWN;
-    private static final String PRIVACY_IMPACT_PACKAGE = "com.fairphone.privacyimpact";
-    private static final String PRIVACY_IMPACT_ACTIVITY = "com.fairphone.privacyimpact.GrantAccessActivity";
     /**
      * Launch a new activity.  You will not receive any information about when
      * the activity exits.  This implementation overrides the base version,
@@ -4013,45 +4009,12 @@ public class Activity extends ContextThemeWrapper
      */
     @Override
     public void startActivity(Intent intent, @Nullable Bundle options) {
-         if ( pi_status == PrivacyImpactAvailability.UNKNOWN ) {
-            try {
-                getPackageManager().getPackageInfo(PRIVACY_IMPACT_PACKAGE, PackageManager.GET_ACTIVITIES);
-                pi_status = PrivacyImpactAvailability.AVAILABLE;
-            } catch (NameNotFoundException e) {
-                pi_status = PrivacyImpactAvailability.UNAVAILABLE;
-            }
-        }
-        if ( pi_status == PrivacyImpactAvailability.UNAVAILABLE ) {
-            if (options != null) {
-                startActivityForResult(intent, -1, options);
-            } else {
-                // Note we want to go through this call for compatibility with
-                // applications that may have overridden the method.
-                startActivityForResult(intent, -1);
-            }
-        } else /* if ( pi_status == PrivacyImpactAvailability.AVAILABLE ) */ {
-
-            String localPackageName = getPackageName();
-
-            if( intent == null || intent.getComponent() == null || intent.getComponent().getPackageName().equalsIgnoreCase(localPackageName)){
-                // same package, should not ask for permissions
-                if (options != null) {
-                    startActivityForResult(intent, -1, options);
-                } else {
-                    // Note we want to go through this call for compatibility with
-                    // applications that may have overridden the method.
-                    startActivityForResult(intent, -1);
-                }
-            } else {
-                // create the new intent
-                Intent privacyIntent = new Intent();
-                privacyIntent.setComponent(new ComponentName(PRIVACY_IMPACT_PACKAGE, PRIVACY_IMPACT_ACTIVITY));
-
-                privacyIntent.putExtra("originalIntent", intent);
-                privacyIntent.putExtra("originalOptions", options);
-
-                startActivityForResult(privacyIntent, -1);
-            }
+        if (options != null) {
+            startActivityForResult(intent, -1, options);
+        } else {
+            // Note we want to go through this call for compatibility with
+            // applications that may have overridden the method.
+            startActivityForResult(intent, -1);
         }
     }
 
