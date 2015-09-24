@@ -897,8 +897,12 @@ public class NotificationStackScrollLayout extends ViewGroup
             }
             case MotionEvent.ACTION_POINTER_UP:
                 onSecondaryPointerUp(ev);
-                mLastMotionY = (int) ev.getY(ev.findPointerIndex(mActivePointerId));
-                mDownX = (int) ev.getX(ev.findPointerIndex(mActivePointerId));
+                try{
+                    mLastMotionY = (int) ev.getY(ev.findPointerIndex(mActivePointerId));
+                    mDownX = (int) ev.getX(ev.findPointerIndex(mActivePointerId));
+                }catch(IllegalArgumentException e){
+                    e.printStackTrace();
+                }
                 break;
         }
         return true;
