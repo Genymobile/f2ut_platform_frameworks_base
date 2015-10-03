@@ -141,7 +141,8 @@ public class ClockScreenService extends Service
 				else if (action.equals(ACTION_ALARM_CHANGED) ||
                                                 action.equals(ACTION_ALARM_CHANGED_V18) ||
 						action.equals(Intent.ACTION_TIME_CHANGED) ||
-						action.equals(Intent.ACTION_TIMEZONE_CHANGED))
+						action.equals(Intent.ACTION_TIMEZONE_CHANGED) ||
+                                                action.equals(Intent.ACTION_LOCALE_CHANGED))
 				{
 					FairphoneClockData.sendUpdateBroadcast(context);
 				}
@@ -152,6 +153,7 @@ public class ClockScreenService extends Service
 		actions.addAction(ACTION_CLOCK_UPDATE);
 		actions.addAction(Intent.ACTION_TIME_CHANGED);
 		actions.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+		actions.addAction(Intent.ACTION_LOCALE_CHANGED);
 		actions.addAction(Intent.ACTION_BATTERY_CHANGED);
 		actions.addAction(Intent.ACTION_SCREEN_OFF);
 		actions.addAction(Intent.ACTION_SCREEN_ON);
