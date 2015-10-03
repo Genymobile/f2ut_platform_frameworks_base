@@ -347,7 +347,7 @@ public class FairphoneClockView extends LinearLayout
 		} else if (active_layout == R.id.clock_widget_yours_since) {
 			setYourFairphoneSince();
 		} else {
-			Log.wtf(TAG, "Unknown layout: " + active_layout);
+			Log.e(TAG, "Unknown layout: " + active_layout);
 		}
 	}
 

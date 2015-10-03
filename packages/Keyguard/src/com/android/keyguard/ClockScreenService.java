@@ -33,13 +33,13 @@ public class ClockScreenService extends Service
 
 	public ClockScreenService()
 	{
-		Log.wtf(TAG, "ClockScreenService");
+		Log.d(TAG, "ClockScreenService");
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		Log.wtf(TAG, "onStartCommand");
+		Log.d(TAG, "onStartCommand");
 		super.onStartCommand(intent, flags, startId);
 
 		setupAMPMManager();
@@ -51,7 +51,7 @@ public class ClockScreenService extends Service
 	@Override
 	public void onDestroy()
 	{
-		Log.wtf(TAG, "onDestroy");
+		Log.d(TAG, "onDestroy");
 		super.onDestroy();
 
 		unregisterReceiver(mBroadcastReceiver);
@@ -114,8 +114,6 @@ public class ClockScreenService extends Service
 					int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
 					int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN);
 					int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-//					String debug =  "Battery Level: " + level + "\nBattery Status: " + getBatteryStatusAsString(status) + "\nBattery Scale: " + scale;
-//					Toast.makeText(context, debug, Toast.LENGTH_LONG).show();
 					FairphoneClockData.updateBatteryPreferences(context, level, status, scale);
 					FairphoneClockData.sendUpdateBroadcast(context);
 				}

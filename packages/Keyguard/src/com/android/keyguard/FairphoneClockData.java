@@ -1,14 +1,22 @@
 package com.android.keyguard;
 
+import com.android.internal.app.IBatteryStats;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.BatteryStats;
+import android.os.ServiceManager;
+import android.os.RemoteException;
+import android.util.Log;
 
 /**
  * Created by rrocha on 8/25/15.
  */
 public class FairphoneClockData
 {
+	private static final String TAG = FairphoneClockData.class.getSimpleName();
+	
 	private static final String FAIRPHONE_CLOCK_PREFERENCES = "com.fairphone.clock.FAIRPHONE_CLOCK_PREFERENCES";
 	private static final String PREFERENCE_BATTERY_LEVEL = "com.fairphone.clock.PREFERENCE_BATTERY_LEVEL";
 	private static final String PREFERENCE_ACTIVE_LAYOUT = "com.fairphone.clock.PREFERENCE_ACTIVE_LAYOUT";
@@ -107,31 +115,26 @@ public class FairphoneClockData
 		getSharedPrefs(context).edit().putLong(PREFERENCE_YOUR_FAIRPHONE_SINCE, value).commit();
 	}
 
+    private static IBatteryStats sBatteryInfo = IBatteryStats.Stub.asInterface(ServiceManager.getService(BatteryStats.SERVICE_NAME));
     public static void updateBatteryPreferences(Context context, int level, int status, int scale)
     {
-	    int currentLevel = getBatteryLevel(context);
-	    int currentStatus = getBatteryStatus(context);
-
-	    if (currentLevel != level || currentStatus != status)
-	    {
-		    setBatteryLevel(context, level);
-		    setBatteryStatus(context, status);
-		    updateBatteryDurationTimes(context, level, scale);
-	    }
-
+		setBatteryStatus(context.getApplicationContext(), status);
+		setBatteryLevel(context.getApplicationContext(), level);
+		try {
+			long chargeTimeRemaining = sBatteryInfo.computeChargeTimeRemaining();
+			if (chargeTimeRemaining >= 0) {
+			setBatteryTimeUntilCharged(context.getApplicationContext(), chargeTimeRemaining);
+			}
+			long batteryTimeRemaining = sBatteryInfo.computeBatteryTimeRemaining();
+			if (batteryTimeRemaining >= 0) {
+				setBatteryTimeUntilDischarged(context.getApplicationContext(), batteryTimeRemaining);	
+			}
+	        Log.d(TAG, "updateBatteryPreferences setBatteryTimeUntilCharged "+chargeTimeRemaining);
+	        Log.d(TAG, "updateBatteryPreferences setBatteryTimeUntilDischarged "+batteryTimeRemaining);
+		} catch (RemoteException e) {
+			Log.e(TAG, "failed to updateBatteryPreferences", e);
+		}
     }
-
-	private static void updateBatteryDurationTimes(Context context, int level, int scale)
-	{
-		SharedPreferences prefs = getSharedPrefs(context);
-		long now = System.currentTimeMillis();
-		long lasttime = prefs.getLong(PREFERENCE_BATTERY_CHANGED_TIMESTAMP, now);
-		long timeUntilCharge = (now - lasttime) * Math.abs(scale - level);
-		long timeUntilDischarge = (now - lasttime) * (level);
-		prefs.edit().putLong(PREFERENCE_BATTERY_CHANGED_TIMESTAMP, now).commit();
-		setBatteryTimeUntilCharged(context, timeUntilCharge);
-		setBatteryTimeUntilDischarged(context, timeUntilDischarge);
-	}
 
 	public static void sendLastLongerBroadcast(Context context)
 	{
