@@ -354,26 +354,26 @@ public class FairphoneClockView extends LinearLayout
 
 	private void setClockAmPm()
 	{
-		if (DateFormat.is24HourFormat(getContext()))
-		{
+		//if (DateFormat.is24HourFormat(getContext()))
+		//{
 			mAmPmText.setVisibility(View.GONE);
-		}
-		else
-		{
-			mAmPmText.setVisibility(View.VISIBLE);
-			Calendar currentCalendar = Calendar.getInstance();
+		//}
+		//else
+		//{
+		//	mAmPmText.setVisibility(View.VISIBLE);
+		//	Calendar currentCalendar = Calendar.getInstance();
 
-			int hour = currentCalendar.get(Calendar.HOUR_OF_DAY);
+		//	int hour = currentCalendar.get(Calendar.HOUR_OF_DAY);
 
-			if (hour < 12)
-			{
-				mAmPmText.setText(getContext().getResources().getString(R.string.time_am_default));
-			}
-			else
-			{
-				mAmPmText.setText(getContext().getResources().getString(R.string.time_pm_default));
-			}
-		}
+		//	if (hour < 12)
+		//	{
+		//		mAmPmText.setText(getContext().getResources().getString(R.string.time_am_default));
+		//	}
+		//	else
+		//	{
+		//		mAmPmText.setText(getContext().getResources().getString(R.string.time_pm_default));
+		//	}
+		//}
 	}
 
 	private void setNextScheduledAlarm()
