@@ -12,6 +12,7 @@ import android.content.res.TypedArray;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.UserHandle;
+import android.provider.AlarmClock;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -98,7 +99,7 @@ public class FairphoneClockView extends LinearLayout
                 @Override
                 public void onClick(View v)
                 {
-			Intent launchIntent = Intent.makeMainActivity(new ComponentName("com.android.deskclock", "com.android.deskclock.DeskClock"));
+			Intent launchIntent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
 			dismissKeyguardOnNextActivity();
 			UserHandle user = new UserHandle(UserHandle.USER_CURRENT);
 			getContext().startActivityAsUser(launchIntent, null, user);
