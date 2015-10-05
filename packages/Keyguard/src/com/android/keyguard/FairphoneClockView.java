@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class FairphoneClockView extends LinearLayout
 {
 	private static final String TAG = FairphoneClockView.class.getSimpleName();
+	private static final String BOARD_DATE_FILE = "/persist/board_date.bin";
 	private ViewGroup[] CLOCK_WIDGET_VIEWS = null;
 
 	private TextView mAmPmText, mAlarmText, mBatteryDaysLeft, mBatteryAmPmIndicator, mHoursText,
@@ -47,7 +48,7 @@ public class FairphoneClockView extends LinearLayout
 	private ImageView mBatteryLevelImage;
 	private BroadcastReceiver mReceiver;
 	private Runnable onDismissRunnable;
-	
+
 	Intent serviceIntent;
 	private final OnClickListener viewClickListener = new OnClickListener()
 	{
@@ -90,7 +91,7 @@ public class FairphoneClockView extends LinearLayout
 	@Override
 	protected void onDetachedFromWindow()
 	{
-				Log.w(TAG, "onDetachedFromWindow");
+		Log.w(TAG, "onDetachedFromWindow");
 		getContext().unregisterReceiver(mReceiver);
 		getContext().stopService(serviceIntent);
 		super.onDetachedFromWindow();
@@ -610,6 +611,8 @@ public class FairphoneClockView extends LinearLayout
 //		return desc;
 //	}
 //
+
+
 	private void setYourFairphoneSince()
 	{
 		Resources resources = getResources();

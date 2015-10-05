@@ -9,6 +9,12 @@ import android.os.BatteryStats;
 import android.os.ServiceManager;
 import android.os.RemoteException;
 import android.util.Log;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Calendar;
 
 /**
  * Created by rrocha on 8/25/15.
@@ -16,7 +22,7 @@ import android.util.Log;
 public class FairphoneClockData
 {
 	private static final String TAG = FairphoneClockData.class.getSimpleName();
-	
+	private static final String BOARD_DATE_FILE = "/persist/board_date.bin";
 	private static final String FAIRPHONE_CLOCK_PREFERENCES = "com.fairphone.clock.FAIRPHONE_CLOCK_PREFERENCES";
 	private static final String PREFERENCE_BATTERY_LEVEL = "com.fairphone.clock.PREFERENCE_BATTERY_LEVEL";
 	private static final String PREFERENCE_ACTIVE_LAYOUT = "com.fairphone.clock.PREFERENCE_ACTIVE_LAYOUT";
@@ -107,7 +113,17 @@ public class FairphoneClockData
 
 	public static long getFairphoneSince(Context context)
 	{
-		return getSharedPrefs(context).getLong(PREFERENCE_YOUR_FAIRPHONE_SINCE, 0);
+		long startTime = getSharedPrefs(context).getLong(PREFERENCE_YOUR_FAIRPHONE_SINCE, 0);
+
+		byte[] boardFile = getBoardDateFileInByteArray();
+
+        if(!byteArrayCheck(boardFile))
+        {
+            String strDate = bytesToHex(boardFile);
+        	startTime = getStartTimeInMilliseconds(strDate, startTime);
+        }
+
+		return startTime;
 	}
 
 	public static void setFairphoneSince(Context context, long value)
@@ -134,6 +150,15 @@ public class FairphoneClockData
 		} catch (RemoteException e) {
 			Log.e(TAG, "failed to updateBatteryPreferences", e);
 		}
+//	    int currentLevel = getBatteryLevel(context);
+//	    int currentStatus = getBatteryStatus(context);
+//
+//	    if (currentLevel != level || currentStatus != status)
+//	    {
+//		    setBatteryLevel(context, level);
+//		    setBatteryStatus(context, status);
+//		    updateBatteryDurationTimes(context, level, scale);
+//	    }
     }
 
 	public static void sendLastLongerBroadcast(Context context)
@@ -146,4 +171,60 @@ public class FairphoneClockData
 	{
 		context.sendBroadcast(new Intent(VIEW_UPDATE));
 	}
+
+	private static byte[] getBoardDateFileInByteArray()
+	{
+        File file = new File(BOARD_DATE_FILE);
+        byte[] fileData = new byte[(int) file.length()];
+        DataInputStream dis = null;
+        try {
+            dis = new DataInputStream(new FileInputStream(file));
+            dis.read(fileData);
+            dis.close();
+        } catch (FileNotFoundException e) {
+            Log.e(TAG,"BoardDateFile not found", e);
+        } catch (IOException e) {
+            Log.e(TAG, "BoardDateFile IOException", e);
+        }
+        finally {
+            return fileData;
+        }
+    }
+
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+	private static boolean byteArrayCheck(final byte[] array) {
+        int sum = 0;
+        for (byte b : array) {
+            sum |= b;
+        }
+        return (sum == 0);
+    }
+
+    private static long getStartTimeInMilliseconds(String date, long sharePrefTime)
+	{
+        Calendar cal = Calendar.getInstance();
+
+        try {
+            cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+            cal.set(Calendar.MONTH, Integer.parseInt(date.substring(4, 6)));
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date.substring(6, 8)));
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(date.substring(8, 10)));
+            cal.set(Calendar.MINUTE, Integer.parseInt(date.substring(10, 12)));
+            cal.set(Calendar.SECOND, Integer.parseInt(date.substring(12, 14)));
+        }
+        catch (NumberFormatException e) {
+            Log.e(TAG, "Parse Exception", e);
+			return sharePrefTime;
+        }
+		return cal.getTimeInMillis();
+    }
 }
