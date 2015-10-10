@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit">bewerk</string>
+    <string name="you_been_in_peace_for">Je peace of mind duurde</string>
+    <string name="your_record_peace_of_mind">Je peace of mind-record is</string>
+    <string name="minutes">minuten</string>
+    <string name="share">deel</string>
+    <string name="battery_charge_will_last_until">Het opladen duurt tot</string>
+    <string name="battery_will_be_charged_at">De batterij is opgeladen om</string>
+    <string name="battery_is_fully">Opladen is voltooid om</string>
+    <string name="make_it_last_longer">Laat batterij langer meegaan</string>
+    <string name="your_fairphone_for">Je Fairphone voor</string>
+    <string name="years">jaar</string>
+    <string name="months">maanden</string>
+    <string name="days">dagen</string>
+    <string name="charged">opgeladen</string>
+    <string name="year">jaar</string>
+    <string name="month">maand</string>
+    <string name="day">dag</string>
+    <string name="hours">uur</string>
+    <string name="hour">uur</string>
+    <string name="weeks">weken</string>
+    <string name="week">week</string>
+    <string name="been_in_peace_for">Mijn peace of mind duurde</string>
+    <string name="peace_record_text">Een nieuw persoonlijk record!</string>
+    <string name="my_fairphone_is">Mijn Fairphone is</string>
+    <string name="old">oud!</string>
+    <string name="share_to">Deel met</string>
+    <string name="battery_charge_will_last">Het opladen duurt tot</string>
+    <string name="battery_will_be_charged_in">De batterij is opgeladen om</string>
+    <string name="unplug_your_charger">Ontkoppel de oplader</string>
+    <string name="tomorrow">morgen</string>
+
+</resources>
