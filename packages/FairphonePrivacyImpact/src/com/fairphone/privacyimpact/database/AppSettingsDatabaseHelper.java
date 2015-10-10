@@ -10,13 +10,7 @@ public class AppSettingsDatabaseHelper {
 
     private static final String TAG = AppSettingsDatabaseHelper.class.getName();
 
-    private final Context mContext;
-
-    public AppSettingsDatabaseHelper(Context context) {
-        mContext = context;
-    }
-
-    public boolean isPackageEnable(String packageName){
+    public static boolean isPackageEnable(String packageName){
         boolean result = true;
         try {
             IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
@@ -27,7 +21,7 @@ public class AppSettingsDatabaseHelper {
         return result;
     }
 
-    public void addPackageName(String packageName){
+    public static void addPackageName(String packageName){
         try {
             IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
             pis.disablePackagePrivacy(packageName);

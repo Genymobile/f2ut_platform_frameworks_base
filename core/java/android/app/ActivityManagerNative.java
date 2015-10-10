@@ -2440,7 +2440,9 @@ class ActivityManagerProxy implements IActivityManager
             Log.i(TAG_TIMELINE, "Timeline: Activity_launch_request id:"
                 + intent.getComponent().getPackageName() + " time:"
                 + SystemClock.uptimeMillis());
-            intent = wrapPrivacyImpact(intent, options, requestCode);
+            if(!callingPackage.equals("com.fairphone.privacyimpact")){
+                intent = wrapPrivacyImpact(intent, options, requestCode);
+            }
         }
 
         data.writeInterfaceToken(IActivityManager.descriptor);
