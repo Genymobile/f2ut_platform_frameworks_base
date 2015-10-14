@@ -142,11 +142,7 @@ public class FairphoneClockView extends LinearLayout
 	{
 		long pom_current = FairphoneClockData.getPeaceOfMindCurrent(getContext());
 		long pom_record = FairphoneClockData.getPeaceOfMindRecord(getContext());
-		String shareText = String.format("%s %d %s!", getResources().getString(R.string.been_in_peace_for), pom_current, getResources().getString(R.string.minutes));
-		if (pom_current == pom_record)
-		{
-			shareText += " " + getResources().getString(R.string.peace_record_text);
-		}
+		String shareText = String.format("%s %d %s!", getResources().getString(R.string.been_in_peace_for), pom_record, getResources().getString(R.string.minutes));
 		return shareText;
 	}
 
