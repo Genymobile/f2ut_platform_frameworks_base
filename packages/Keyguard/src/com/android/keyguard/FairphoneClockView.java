@@ -46,6 +46,8 @@ public class FairphoneClockView extends LinearLayout
 	private View mDayIndicator, mBatteryTimeGroup, mLastLongerButton, mChargedText, mUnplugChargerText;
 	private ImageView mBatteryLevelImage;
 	private BroadcastReceiver mReceiver;
+	private Runnable onDismissRunnable;
+	
 	Intent serviceIntent;
 	private final OnClickListener viewClickListener = new OnClickListener()
 	{
@@ -70,7 +72,7 @@ public class FairphoneClockView extends LinearLayout
 	@Override
 	protected void onAttachedToWindow()
 	{
-				Log.w(TAG, "onAttachedToWindow");
+		Log.w(TAG, "onAttachedToWindow");
 		super.onAttachedToWindow();
 		mReceiver = new BroadcastReceiver()
 		{
@@ -132,11 +134,28 @@ public class FairphoneClockView extends LinearLayout
 				sendIntent = Intent.createChooser(sendIntent, getResources().getString(R.string.share_to));
 				sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				dismissKeyguardOnNextActivity();
-				UserHandle user = new UserHandle(UserHandle.USER_CURRENT);
-				getContext().startActivityAsUser(sendIntent, null, user);
+				onDismissRunnable = new Runnable(){
+					private Intent mIntent;
+					public Runnable setup(Intent intent){
+						mIntent = intent;
+						return this;
+					}
+					public void run(){
+						UserHandle user = new UserHandle(UserHandle.USER_CURRENT);
+						getContext().startActivityAsUser(mIntent, null, user);
+					}	
+				}.setup(sendIntent);
 			}
 		}
 	};
+	@Override
+	public  void onWindowFocusChanged (boolean hasWindowFocus){
+		Log.wtf(TAG, "onWindowFocusChanged "+hasWindowFocus);
+		if (!hasWindowFocus && onDismissRunnable != null){
+			onDismissRunnable.run();
+			onDismissRunnable = null;
+		}
+	}
 
 	private String getPeaceOfMindShareText()
 	{
