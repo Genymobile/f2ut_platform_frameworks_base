@@ -172,36 +172,36 @@ public class FairphoneClockView extends LinearLayout
 		StringBuilder s = new StringBuilder();
 		if (p.diffYears != 0)
 		{
-			s.append(String.format("%02d", p.diffYears));
+			s.append(String.format("%02d ", p.diffYears));
 			s.append(p.diffYears == 1 ? resources.getString(R.string.year) : resources.getString(R.string.years));
 			s.append(", ");
-			s.append(String.format("%02d", p.diffMonths));
+			s.append(String.format("%02d ", p.diffMonths));
 			s.append(p.diffMonths == 1 ? resources.getString(R.string.month) : resources.getString(R.string.months));
 			s.append(", ");
-			s.append(String.format("%02d", p.diffMonthDays));
+			s.append(String.format("%02d ", p.diffMonthDays));
 			s.append(p.diffMonthDays == 1 ? resources.getString(R.string.day) : resources.getString(R.string.days));
 		}
 		else if (p.diffMonths != 0)
 		{
-			s.append(String.format("%02d", p.diffMonths));
+			s.append(String.format("%02d ", p.diffMonths));
 			s.append(p.diffMonths == 1 ? resources.getString(R.string.month) : resources.getString(R.string.months));
 			s.append(", ");
-			s.append(String.format("%02d", p.diffWeeks));
+			s.append(String.format("%02d ", p.diffWeeks));
 			s.append(p.diffWeeks == 1 ? resources.getString(R.string.week) : resources.getString(R.string.weeks));
 			s.append(", ");
-			s.append(String.format("%02d", p.diffMonthWeekDays));
+			s.append(String.format("%02d ", p.diffMonthWeekDays));
 			s.append(p.diffMonthWeekDays == 1 ? resources.getString(R.string.day) : resources.getString(R.string.days));
 		}
 		else
 		{
-			mElapsedYearsText.setText(String.format("%02d", p.diffWeeks));
-			mYearsText.setText(p.diffWeeks == 1 ? resources.getString(R.string.week) : resources.getString(R.string.weeks));
+			s.append(String.format("%02d ", p.diffWeeks));
+			s.append(p.diffWeeks == 1 ? resources.getString(R.string.week) : resources.getString(R.string.weeks));
 			s.append(", ");
-			mElapsedMonthsText.setText(String.format("%02d", p.diffMonthWeekDays));
-			mMonthsText.setText(p.diffMonthWeekDays == 1 ? resources.getString(R.string.day) : resources.getString(R.string.days));
+			s.append(String.format("%02d ", p.diffMonthWeekDays));
+			s.append(p.diffMonthWeekDays == 1 ? resources.getString(R.string.day) : resources.getString(R.string.days));
 			s.append(", ");
-			mElapsedDaysText.setText(String.format("%02d", p.diffHours));
-			mDaysText.setText(p.diffHours == 1 ? resources.getString(R.string.hour) : resources.getString(R.string.hours));
+			s.append(String.format("%02d ", p.diffHours));
+			s.append(p.diffHours == 1 ? resources.getString(R.string.hour) : resources.getString(R.string.hours));
 		}
 		return String.format("%s %s %s", getResources().getString(R.string.my_fairphone_is), s.toString(), getResources().getString(R.string.old));
 	}
