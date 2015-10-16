@@ -2402,7 +2402,7 @@ class ActivityManagerProxy implements IActivityManager
     {
         return mRemote;
     }
-    
+
     private static final String PRIVACY_IMPACT_PACKAGE = "com.fairphone.privacyimpact";
     private static final String PRIVACY_IMPACT_ACTIVITY = "com.fairphone.privacyimpact.GrantAccessActivity";
 
@@ -2440,7 +2440,7 @@ class ActivityManagerProxy implements IActivityManager
             Log.i(TAG_TIMELINE, "Timeline: Activity_launch_request id:"
                 + intent.getComponent().getPackageName() + " time:"
                 + SystemClock.uptimeMillis());
-            if(!callingPackage.equals("com.fairphone.privacyimpact")){
+            if(callingPackage != null && !callingPackage.equals("com.fairphone.privacyimpact")){
                 intent = wrapPrivacyImpact(intent, options, requestCode);
             }
         }
