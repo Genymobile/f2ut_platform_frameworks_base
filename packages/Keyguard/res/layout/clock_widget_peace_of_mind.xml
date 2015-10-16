@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="0.9"
         android:gravity="left"
+        android:maxLines="2"
         android:paddingLeft="112dp"
         android:text="@string/you_been_in_peace_for" />
 
@@ -38,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:singleLine="true"
             android:text="@string/minutes" />
     </LinearLayout>
 
@@ -48,6 +50,7 @@
         android:gravity="left"
         android:paddingLeft="112dp"
         android:lineSpacingMultiplier="0.9"
+        android:maxLines="2"
         android:text="@string/your_record_peace_of_mind" />
 
     <LinearLayout
@@ -73,6 +76,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:paddingRight="8dp"
+            android:singleLine="true"
             android:text="@string/minutes" />
 
         <TextView
@@ -85,7 +89,8 @@
             android:drawableRight="@drawable/share_icon"
             android:gravity="left"
             android:padding="5dp"
-            android:layout_marginLeft="30dp"
+            android:singleLine="true"
+            android:layout_marginLeft="28dp"
             android:text="@string/share" />
 
     </LinearLayout>
