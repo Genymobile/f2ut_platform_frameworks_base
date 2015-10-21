@@ -651,10 +651,10 @@ public class NetworkMonitor extends StateMachine {
      * Returns HTTP response code.
      */
     private int isCaptivePortal() {
-        if (mIsCaptivePortalCheckEnabled) return 204;
+        if (!mIsCaptivePortalCheckEnabled) return 204;
 
         HttpURLConnection urlConnection = null;
-        int httpResponseCode = 599;
+        int httpResponseCode = 204;
         try {
             URL url = new URL("http", mServer, "/generate_204");
             // On networks with a PAC instead of fetching a URL that should result in a 204
