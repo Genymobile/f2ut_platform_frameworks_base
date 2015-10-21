@@ -651,7 +651,7 @@ public class NetworkMonitor extends StateMachine {
      * Returns HTTP response code.
      */
     private int isCaptivePortal() {
-        if (mIsCaptivePortalCheckEnabled) return 204;
+        if (!mIsCaptivePortalCheckEnabled) return 204;
 
         HttpURLConnection urlConnection = null;
         int httpResponseCode = 599;
