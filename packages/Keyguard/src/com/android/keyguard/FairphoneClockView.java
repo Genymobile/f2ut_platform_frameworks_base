@@ -79,7 +79,7 @@ public class FairphoneClockView extends LinearLayout
 			@Override
 			public void onReceive(Context context, Intent intent)
 			{
-				update();
+				init(null);
 			}
 		};
 		getContext().registerReceiver(mReceiver, new IntentFilter(FairphoneClockData.VIEW_UPDATE));
@@ -283,7 +283,7 @@ public class FairphoneClockView extends LinearLayout
 				}
 			}
 		}
-
+		removeAllViews();
 		ViewGroup mRootView = (ViewGroup) inflate(getContext(), R.layout.widget_main, this);
 		CLOCK_WIDGET_VIEWS = new ViewGroup[CLOCK_WIDGET_LAYOUTS.length];
 		for (int i = 0; i < CLOCK_WIDGET_LAYOUTS.length; ++i)
