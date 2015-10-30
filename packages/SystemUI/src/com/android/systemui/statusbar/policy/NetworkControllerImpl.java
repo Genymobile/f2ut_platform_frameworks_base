@@ -1136,7 +1136,7 @@ public class NetworkControllerImpl extends BroadcastReceiver
     }
 
     protected void updateWifiIcons() {
-        int inetCondition = inetConditionForNetwork(ConnectivityManager.TYPE_WIFI);
+        int inetCondition = 1;//inetConditionForNetwork(ConnectivityManager.TYPE_WIFI);
         if (mWifiConnected) {
             mWifiIconId = WifiIcons.WIFI_SIGNAL_STRENGTH[inetCondition][mWifiLevel];
             mQSWifiIconId = WifiIcons.QS_WIFI_SIGNAL_STRENGTH[inetCondition][mWifiLevel];
