@@ -673,7 +673,8 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
     }
 
     @Override
-    public IntentSender createAppWidgetConfigIntentSender(String callingPackage, int appWidgetId) {
+    public IntentSender createAppWidgetConfigIntentSender(String callingPackage, int appWidgetId,
+            int intentFlags) {
         final int userId = UserHandle.getCallingUserId();
 
         if (DEBUG) {
@@ -703,6 +704,7 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
             Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             intent.setComponent(provider.info.configure);
+            intent.setFlags(intentFlags);
 
             // All right, create the sender.
             final long identity = Binder.clearCallingIdentity();
