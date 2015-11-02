@@ -8140,9 +8140,8 @@ public final class ActivityManagerService extends ActivityManagerNative
             }
         }
         if (!allowed) {
-            //FP2-1080: Modify for CTS fail case.
             Slog.w(TAG, caller + ": caller " + callingUid
-                    + " does not hold REAL_GET_TASKS; limiting output");
+                    + " does not hold GET_TASKS; limiting output");
         }
         return allowed;
     }
@@ -12283,26 +12282,16 @@ public final class ActivityManagerService extends ActivityManagerNative
 
     public List<ActivityManager.RunningAppProcessInfo> getRunningAppProcesses() {
         enforceNotIsolatedCaller("getRunningAppProcesses");
-
-        // FP2-1080: Modify for CTS fail case.
-        final int callingUid = Binder.getCallingUid();
-
         // Lazy instantiation of list
         List<ActivityManager.RunningAppProcessInfo> runList = null;
-        // FP2-1080: Modify for CTS fail case.
         final boolean allUsers = ActivityManager.checkUidPermission(INTERACT_ACROSS_USERS_FULL,
-                callingUid) == PackageManager.PERMISSION_GRANTED;
-        final int userId = UserHandle.getUserId(callingUid);
-        final boolean allUids = isGetTasksAllowed(
-                "getRunningAppProcesses", Binder.getCallingPid(), callingUid);
-
+                Binder.getCallingUid()) == PackageManager.PERMISSION_GRANTED;
+        int userId = UserHandle.getUserId(Binder.getCallingUid());
         synchronized (this) {
             // Iterate across all processes
-            for (int i = mLruProcesses.size() - 1; i >= 0; i--) {
+            for (int i=mLruProcesses.size()-1; i>=0; i--) {
                 ProcessRecord app = mLruProcesses.get(i);
-                // FP2-1080: Modify for CTS fail case.
-                if ((!allUsers && app.userId != userId)
-                        || (!allUids && app.uid != callingUid)) {
+                if (!allUsers && app.userId != userId) {
                     continue;
                 }
                 if ((app.thread != null) && (!app.crashing && !app.notResponding)) {
@@ -12326,8 +12315,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                     //Slog.v(TAG, "Proc " + app.processName + ": imp=" + currApp.importance
                     //        + " lru=" + currApp.lru);
                     if (runList == null) {
-                        // FP2-1080: Modify for CTS fail case.
-                        runList = new ArrayList<>();
+                        runList = new ArrayList<ActivityManager.RunningAppProcessInfo>();
                     }
                     runList.add(currApp);
                 }
