@@ -137,11 +137,13 @@ public class ClockScreenService extends Service
 					FairphoneClockData.sendUpdateBroadcast(context);
 				}
 				else if (action.equals(ACTION_ALARM_CHANGED) ||
-                                                action.equals(ACTION_ALARM_CHANGED_V18) ||
-						action.equals(Intent.ACTION_TIME_CHANGED) ||
+                                                action.equals(ACTION_ALARM_CHANGED_V18)) {
+				}
+				else if (action.equals(Intent.ACTION_TIME_CHANGED) ||
 						action.equals(Intent.ACTION_TIMEZONE_CHANGED) ||
                                                 action.equals(Intent.ACTION_LOCALE_CHANGED))
 				{
+					mScreenOffTimestamp = -1; // invalidate peace of mind if time changes
 					FairphoneClockData.sendUpdateBroadcast(context);
 				}
 			}
