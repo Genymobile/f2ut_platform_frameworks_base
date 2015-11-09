@@ -480,7 +480,7 @@ public class MSimSignalClusterView
             mMobileType[phoneId].setVisibility(View.GONE);
         }
 
-        if (mStyle != STATUS_BAR_STYLE_ANDROID_DEFAULT) {
+        if (mStyle == STATUS_BAR_STYLE_ANDROID_DEFAULT) {
             if (mNoSimIconId[phoneId] != 0) {
                 mNoSimSlot[phoneId].setVisibility(View.VISIBLE);
                 mMobile[phoneId].setVisibility(View.GONE);
@@ -493,7 +493,7 @@ public class MSimSignalClusterView
         if (phoneId != 0) {
             if (mMobileVisible && mWifiVisible && ((mIsAirplaneMode) ||
                     (mNoSimIconId[phoneId] != 0) ||
-                    (mStyle != STATUS_BAR_STYLE_ANDROID_DEFAULT))) {
+                    (mStyle == STATUS_BAR_STYLE_ANDROID_DEFAULT))) {
                 mSpacer.setVisibility(View.INVISIBLE);
             } else {
                 mSpacer.setVisibility(View.GONE);
