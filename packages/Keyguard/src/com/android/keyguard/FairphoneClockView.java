@@ -651,8 +651,10 @@ public class FairphoneClockView extends LinearLayout
 		Period p = new Period();
 		long startTime = FairphoneClockData.getFairphoneSince(getContext());
 		if (startTime == 0L)
-		{
-			startTime = System.currentTimeMillis();
+		{	
+			Calendar cal = Calendar.getInstance();
+        		cal.set(2015, Calendar.OCTOBER, 26);
+			startTime = cal.getTimeInMillis();
 			FairphoneClockData.setFairphoneSince(getContext(),startTime);
 		}
 		Calendar start = Calendar.getInstance();
