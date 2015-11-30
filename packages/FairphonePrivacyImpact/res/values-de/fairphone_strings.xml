@@ -36,6 +36,6 @@
     <string name="notifications_off_description">Benachrichtigungen von dieser App nicht anzeigen.</string>
     <string name="notifications_priority_description">Benachrichtigungen erscheinen oben auf der Liste. Du wirst sie auch dann erhalten, wenn dein Gerät ausschließlich auf Prioritätsunterbrechungen eingestellt ist.</string>
     <string name="privacy_popup_checkbox_title">PopUp Datenschutzfolgen ausschalten</string>
-    <string name="privacy_popup_checkbox_description">Keine Einstellungen für Datenschutzfolgen und Benachrichtigungen mehr anzeigen. Du kannst dies in den Einstellungen jederzeit rückgängig machen.</string>
+    <string name="privacy_popup_checkbox_description">Keine Einstellungen für Datenschutzfolgen und Benachrichtigungen mehr anzeigen.</string>
 
 </resources>

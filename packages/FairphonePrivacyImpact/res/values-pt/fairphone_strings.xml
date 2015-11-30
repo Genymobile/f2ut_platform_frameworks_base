@@ -39,6 +39,6 @@ app, aconselhamos que não a use e procure apps alternativas.</string>
     <string name="notifications_off_description">Nunca mostrar notificações desta app</string>
     <string name="notifications_priority_description">Mostrar notificações no topo da lista e recebê-las quando o dispositivo estiver configurado para apenas interrupções prioritárias</string>
     <string name="privacy_popup_checkbox_title">Desactivar popup de Impacto na Privacidade</string>
-    <string name="privacy_popup_checkbox_description">Não mostrar o Impacto na Privacidade e Notificações para as minhas apps. Pode sempre alterar esta escolha nas Configurações.</string>
+    <string name="privacy_popup_checkbox_description">Não mostrar o Impacto na Privacidade e Notificações para as minhas apps.</string>
 
 </resources>

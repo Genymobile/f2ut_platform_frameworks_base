@@ -36,6 +36,6 @@
     <string name="notifications_off_description">Never show notifications from this app.</string>
     <string name="notifications_priority_description">Notifications appear first on the list. You\'ll still receive them when your device is set to priority interruptions only.</string>
     <string name="privacy_popup_checkbox_title">Disable Privacy Impact popup</string>
-    <string name="privacy_popup_checkbox_description">Stop showing Privacy Impact and Notification Settings for my apps. You can always turn it back on in the settings.</string>
+    <string name="privacy_popup_checkbox_description">Stop showing Privacy Impact and Notification Settings for my apps.</string>
 
 </resources>

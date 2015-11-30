@@ -36,6 +36,6 @@
     <string name="notifications_off_description">Geen notificaties tonen van deze app.</string>
     <string name="notifications_priority_description">Notificaties verschijnen bovenaan de lijst. Notificaties worden ook getoond wanneer je apparaat ingesteld is op enkel Priortiteit onderbrekingen.</string>
     <string name="privacy_popup_checkbox_title">Privacy Impact popup uitzetten</string>
-    <string name="privacy_popup_checkbox_description">Toon voor mijn apps geen instellingen voor Privacy Impact en Notificaties meer. Je kunt deze optie altijd weer aanzetten via de instellingen.</string>
+    <string name="privacy_popup_checkbox_description">Toon voor mijn apps geen instellingen voor Privacy Impact en Notificaties meer.</string>
 
 </resources>

@@ -36,6 +36,6 @@
     <string name="notifications_off_description">Ne jamais afficher les notifications de cette application.</string>
     <string name="notifications_priority_description">Les notifications apparaissent en premier sur la liste. Vous continuerez de les recevoir lorsque votre appareil est réglé sur interruptions prioritaires uniquement.</string>
     <string name="privacy_popup_checkbox_title">Désactiver la fenêtre d\'analyse de l\'impact sur la vie privée</string>
-    <string name="privacy_popup_checkbox_description">Ne plus afficher l\'impact sur la vie privée et les réglages des notifications de mes applications. Vous pouvez décider de les afficher à nouveau dans la rubrique réglages.</string>
+    <string name="privacy_popup_checkbox_description">Ne plus afficher l\'impact sur la vie privée et les réglages des notifications de mes applications.</string>
 
 </resources>
