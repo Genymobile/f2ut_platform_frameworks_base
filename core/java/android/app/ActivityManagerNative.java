@@ -2412,6 +2412,7 @@ class ActivityManagerProxy implements IActivityManager
             IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
             if( intent != null &&
                 intent.getComponent() != null &&
+                pis.isPrivacyImpactEnabled() &&
                 pis.showPackagePrivacy(intent.getComponent().getPackageName())) {
                     Log.i(TAG_TIMELINE, "Timeline: Activity_first_launch "+
                         intent.getComponent().getPackageName() + " time:"

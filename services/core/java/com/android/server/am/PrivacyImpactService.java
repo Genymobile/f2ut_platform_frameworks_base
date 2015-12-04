@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -16,6 +17,9 @@ import android.util.Log;
 public class PrivacyImpactService extends IPrivacyImpactService.Stub {
     private static final String TAG = "PrivacyImpactService";
 
+    public static final String PREFS_NAME           = "privacy_prefs";
+    public static final String PREFS_ENABLED           = "privacy_prefs";
+    
     public static final String TABLE_NAME           = "popup";
     public static final String COLUMN_ID            = "_id";
     public static final String COLUMN_PACKAGE_NAME  = "name";
@@ -238,11 +242,12 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
         }
     );
     private final SQLiteOpenHelper mHelper;
+    private final SharedPreferences mPrefs;
 
     public PrivacyImpactService(Context context) {
         super();
         mContext = context;
-        Log.wtf(TAG, "Starting PrivacyImpactService");
+        Log.i(TAG, "Starting PrivacyImpactService");
         
         mHelper = new SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
             @Override
@@ -261,15 +266,16 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
                 onCreate(db);
             }
         };
-        Log.wtf(TAG, "Started PrivacyImpactService");
+        mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Log.d(TAG, "Started PrivacyImpactService");
     }
 
 
     public boolean showPackagePrivacy(String packageName) {
-        Log.wtf(TAG, "Querying Package name: " + packageName);
+        Log.i(TAG, "Querying Package name: " + packageName);
         boolean show = false;
 
-        Log.wtf(TAG, "checking if it is in whitelist "+sWhitelist.contains(packageName));
+        Log.i(TAG, "checking if it is in whitelist "+sWhitelist.contains(packageName));
         // Don't show Privacy Impact for whitelisted apps
         if (!sWhitelist.contains(packageName)) {
             // Don't show Privacy Impact for system apps
@@ -301,7 +307,7 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
     }
 
     public void disablePackagePrivacy(String packageName) {
-        Log.wtf(TAG, "Adding Package name: " + packageName);
+        Log.i(TAG, "Adding Package name: " + packageName);
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
@@ -309,5 +315,27 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
         values.put(COLUMN_PACKAGE_NAME, packageName);
 
         db.insert(TABLE_NAME, null, values);
+    }
+    
+    public void clearPackagePrivacyData() {
+        Log.i(TAG, "Clearing Privacy Impact database");
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.delete(TABLE_NAME, null, null);
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.remove(PREFS_ENABLED);
+        editor.apply();
+    }
+    
+    public boolean isPrivacyImpactEnabled() {
+        boolean result = mPrefs.getBoolean(PREFS_ENABLED, true);
+        Log.i(TAG, "isPrivacyImpactEnabled() = "+result);
+        return result;
+    }
+    
+    public void setPrivacyImpactStatus(boolean enabled) {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean(PREFS_ENABLED, enabled);
+        editor.apply();
+        Log.i(TAG, "setPrivacyImpactStatus("+enabled+")");
     }
 }

@@ -29,5 +29,34 @@ public class AppSettingsDatabaseHelper {
             Log.e(TAG, "Failed to set package "+packageName+" from service", e);
         }
     }
+    
+    public static void resetPrivacyDatabase(){
+        try {
+            IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
+            pis.clearPackagePrivacyData();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to clear privacy impact database", e);
+        }
+    }
+    
+    public static boolean isPrivacyImpactEnabled(){
+        boolean result = false;
+        try {
+            IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
+            result = !pis.isPrivacyImpactEnabled();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to get privacy impact enable status. Fallback to disabled.", e);
+        }
+        return result;
+    }
+    
+    public static void setPrivacyImpactStatus(boolean enabled){
+        try {
+            IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
+            pis.setPrivacyImpactStatus(enabled);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to get privacy impact enable status. Fallback to disabled.", e);
+        }
+    }
 }
 

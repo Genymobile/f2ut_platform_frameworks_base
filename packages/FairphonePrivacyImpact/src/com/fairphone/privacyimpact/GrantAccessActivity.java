@@ -33,6 +33,7 @@ public class GrantAccessActivity extends FragmentActivity {
 
     private final static String TAG = GrantAccessActivity.class.getSimpleName();
     private static final String PREFS_PRIVACY_IMPACT = "com.fairphone.privacyimpact.PREFS_PRIVACY_IMPACT";
+    private static final String FIRST_RUN = "com.fairphone.privacyimpact.FIRST_RUN";
     private static final String SHOW_PRIVACY_IMPACT_OOBE = "com.fairphone.privacyimpact.SHOW_PRIVACY_OOBE";
     private static final boolean DEBUG = false;
     
@@ -41,12 +42,11 @@ public class GrantAccessActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        Log.wtf(TAG, "GrantAccessActivity - onCreate");
+        Log.i(TAG, "GrantAccessActivity - onCreate");
         try {
             Intent startIntent = getIntent();
-            
+            clearOnFirstRun();
             if (showPrivacyImpact(startIntent)) {
-                 Log.wtf(TAG, "if");
                 try {
                     // setup the layout
                     setupLayout(startIntent);
@@ -55,12 +55,24 @@ public class GrantAccessActivity extends FragmentActivity {
                     startApplication(startIntent);
                 }
             } else {
-                Log.wtf(TAG, "else");
                 startApplication(startIntent);
             }
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to launch Privacy Impact", e);
+        }
+    }
+    
+    private void clearOnFirstRun(){
+        // Privacy Impact database is kept as a system service, not as part of this app
+        // so we need to explicitly reset it if this app is running for the first time,
+        // in case its data was cleared.
+        SharedPreferences sharedPrefs = getSharedPreferences(PREFS_PRIVACY_IMPACT, Context.MODE_PRIVATE);
+        if (sharedPrefs.getBoolean(FIRST_RUN, true)) {
+            AppSettingsDatabaseHelper.resetPrivacyDatabase();
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putBoolean(FIRST_RUN, false);
+            editor.apply();
         }
     }
 
@@ -91,6 +103,11 @@ public class GrantAccessActivity extends FragmentActivity {
         // Is the hide popup preference checked?
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean popupDisabled = defaultSharedPreferences.getBoolean(HIDE_PRIVACY_IMPACT_PREFERENCE, false);
+        // Validate it matched the system behaviour
+        if( popupDisabled != AppSettingsDatabaseHelper.isPrivacyImpactEnabled()) {
+            Log.e(TAG, "Value mismatch on Privacy Impact enabled status between settings preference and system service");
+            //TODO
+        }
 
         // Has it been validated already?
         boolean impactAccepted =
@@ -243,6 +260,7 @@ public class GrantAccessActivity extends FragmentActivity {
                 SharedPreferences.Editor editor = defaultSharedPreferences.edit();
                 editor.putBoolean(HIDE_PRIVACY_IMPACT_PREFERENCE, isChecked);
                 editor.apply();
+                AppSettingsDatabaseHelper.setPrivacyImpactStatus(!isChecked);
             }
         }.setup(this));
     }
