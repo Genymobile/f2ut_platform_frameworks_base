@@ -577,8 +577,8 @@ public class FairphoneClockView extends LinearLayout
 		else
 		{
 			mBatteryDescriptionText.setText(getResources().getString(isCharging ? R.string.battery_will_be_charged_in : R.string.battery_charge_will_last));
-			long diff = currentTime.getTimeInMillis() - endTime.getTimeInMillis();
-			long days = TimeUnit.MILLISECONDS.toDays(diff);
+			long diff = endTime.getTimeInMillis() - currentTime.getTimeInMillis();
+			long days = Math.abs(TimeUnit.MILLISECONDS.toDays(diff));
 			mBatteryDaysLeft.setText(String.format("%d %s", days, getResources().getString(days == 1 ? R.string.day : R.string.days)));
 			mBatteryTimeGroup.setVisibility(View.GONE);
 			mBatteryDaysLeft.setVisibility(View.VISIBLE);
