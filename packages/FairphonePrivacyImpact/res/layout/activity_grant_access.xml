@@ -227,14 +227,20 @@
         android:layout_height="match_parent"
         android:clickable="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/privacy_oobe_popup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="254dp"
             android:layout_marginLeft="9.3dp"
             android:layout_marginRight="9.3dp"
-            android:layout_marginTop="254dp"
-            android:background="@drawable/oobe_popup_arrow_up"
+            android:layout_marginBottom="9.3dp"
+            android:background="@drawable/oobe_popup_arrow_up">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingTop="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -266,17 +272,25 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/got_it" />
         </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/notifications_oobe_popup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="@drawable/oobe_popup_arrow_left_down"
+            android:layout_marginBottom="340dp"
             android:layout_marginLeft="9.3dp"
             android:layout_marginRight="9.3dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/oobe_popup_arrow_left_down"
-            android:orientation="vertical"
-            android:visibility="invisible">
+            android:layout_marginTop="9.3dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
 
             <TextView
                 style="@style/oobe_title"
@@ -307,5 +321,6 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/got_it" />
         </LinearLayout>
+    </RelativeLayout>
     </FrameLayout>
 </FrameLayout>
