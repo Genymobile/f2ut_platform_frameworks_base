@@ -14,6 +14,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/privacy_impact"
+        android:maxLines="1"
         android:textAllCaps="true"
         android:textColor="@color/blue"
         android:textSize="24dp" />
@@ -25,6 +26,7 @@
         android:layout_marginTop="-10dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
+        android:maxLines="1"    
         android:textAllCaps="true"
         android:textColor="@color/blue"
         android:textSize="34dp"
@@ -62,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
+                android:maxLines="2"
                 android:textColor="@color/blue"
                 android:textColorLink="@color/blue"
                 android:textSize="14dp" />
@@ -79,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
+                    android:maxLines="2"
                     android:text="@string/no_permissons_required"
                     android:textAllCaps="true"
                     android:textColor="@color/grey"
@@ -119,6 +123,7 @@
                     android:layout_marginTop="25.7dp"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
+                    android:maxLines="2"
                     android:text="@string/this_app_is_able_to"
                     android:textAllCaps="true"
                     android:textColor="@color/grey"
@@ -141,6 +146,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
+        android:maxLines="1"
         android:text="@string/close" />
 
 </LinearLayout>
