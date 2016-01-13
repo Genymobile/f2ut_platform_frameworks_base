@@ -29,6 +29,16 @@ public class AppSettingsDatabaseHelper {
             Log.e(TAG, "Failed to set package "+packageName+" from service", e);
         }
     }
+
+   public static void removePackageName(String packageName){
+        try {
+            IPrivacyImpactService pis = IPrivacyImpactService.Stub.asInterface(ServiceManager.getService("PrivacyImpact"));
+            pis.enablePackagePrivacy(packageName);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to remove package "+packageName+" from service", e);
+        }
+    }
+
     
     public static void resetPrivacyDatabase(){
         try {

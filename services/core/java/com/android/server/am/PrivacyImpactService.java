@@ -316,6 +316,14 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
 
         db.insert(TABLE_NAME, null, values);
     }
+
+    public void enablePackagePrivacy(String packageName) {
+        Log.i(TAG, "Removing Package name: " + packageName);
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+
+        int result = db.delete(TABLE_NAME, COLUMN_PACKAGE_NAME + " = ?", new String[]{packageName});
+    }
+
     
     public void clearPackagePrivacyData() {
         Log.i(TAG, "Clearing Privacy Impact database");
