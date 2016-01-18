@@ -388,6 +388,18 @@ public class UserManager {
     public static final String DISALLOW_OUTGOING_BEAM = "no_outgoing_beam";
 
     /**
+     * Specifies if the user is not allowed to use SU commands.
+     * The default value is <code>false</code>.
+     *
+     * <p/>Key for user restrictions.
+     * <p/>Type: Boolean
+     * @see #setUserRestrictions(Bundle)
+     * @see #getUserRestrictions()
+     * @hide
+     */
+    public static final String DISALLOW_SU = "no_su";
+
+    /**
      * Application restriction key that is used to indicate the pending arrival
      * of real restrictions for the app.
      *
@@ -748,6 +760,7 @@ public class UserManager {
                 Bundle guestRestrictions = mService.getDefaultGuestRestrictions();
                 guestRestrictions.putBoolean(DISALLOW_SMS, true);
                 guestRestrictions.putBoolean(DISALLOW_INSTALL_UNKNOWN_SOURCES, true);
+                guestRestrictions.putBoolean(DISALLOW_SU, true);
                 mService.setUserRestrictions(guestRestrictions, guest.id);
             } catch (RemoteException re) {
                 Log.w(TAG, "Could not update guest restrictions");
@@ -787,6 +800,7 @@ public class UserManager {
     private static void addDefaultUserRestrictions(Bundle restrictions) {
         restrictions.putBoolean(DISALLOW_OUTGOING_CALLS, true);
         restrictions.putBoolean(DISALLOW_SMS, true);
+        restrictions.putBoolean(DISALLOW_SU, true);
     }
 
     /**

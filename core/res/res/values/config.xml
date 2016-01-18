@@ -2143,7 +2143,7 @@
         <item>Trying to delete contacts</item>
         <item>Trying to delete call log</item>
         <item>Trying to turn on mobile data</item>
-
+        <item>Trying to gain Superuser privileges</item>
     </string-array>
 
     <!-- Configuartion to set zen mode when silent mode is on -->
