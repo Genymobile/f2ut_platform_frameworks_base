@@ -15,7 +15,8 @@ import com.fairphone.privacyimpact.database.AppSettingsDatabaseHelper;
 public class PackageRemovedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-	if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)){
+	if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED) &&
+   !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)){
             PackageManager pm = context.getPackageManager();
 //	    String[] packageNames = pm.getPackagesForUid(intent.getIntExtra(Intent.EXTRA_UID, 0));
 	    String packageName = getPackageName(intent);
