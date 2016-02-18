@@ -97,7 +97,7 @@ public class MediaActionSound {
      */
     public MediaActionSound() {
         mSoundPool = new SoundPool(NUM_MEDIA_SOUND_STREAMS,
-                AudioManager.STREAM_SYSTEM_ENFORCED, 0);
+                AudioManager.STREAM_SYSTEM, 0);
         mSoundPool.setOnLoadCompleteListener(mLoadCompleteListener);
         mSoundIds = new int[SOUND_FILES.length];
         for (int i = 0; i < mSoundIds.length; i++) {
