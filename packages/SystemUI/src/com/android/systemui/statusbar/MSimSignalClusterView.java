@@ -474,8 +474,12 @@ public class MSimSignalClusterView
                     mMobileStrengthId[phoneId], mMobileTypeId[phoneId]));
 
         if (mStyle == STATUS_BAR_STYLE_ANDROID_DEFAULT) {
-            mMobileType[phoneId].setVisibility(
-                    !mWifiVisible ? View.VISIBLE : View.GONE);
+            if (mMobileTypeId[phoneId] == R.drawable.stat_sys_data_fully_connected_roam){
+                mMobileType[phoneId].setVisibility(View.VISIBLE );
+            }else{
+                mMobileType[phoneId].setVisibility(
+                        !mWifiVisible ? View.VISIBLE : View.GONE);
+            }
         } else {
             mMobileType[phoneId].setVisibility(View.GONE);
         }
