@@ -1,5 +1,10 @@
 package com.android.server.am;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,14 +16,17 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.os.IPrivacyImpactService;
+import android.os.UserHandle;
+import android.util.AtomicFile;
 import android.util.Log;
 
 public class PrivacyImpactService extends IPrivacyImpactService.Stub {
     private static final String TAG = "PrivacyImpactService";
-
-    public static final String PREFS_NAME           = "privacy_prefs";
-    public static final String PREFS_ENABLED           = "privacy_prefs";
+    
+    private final String PRIVACY_IMPACT_FILENAME = "privacy_impact";
+    private final boolean DEFAULT_ENABLED = true;
     
     public static final String TABLE_NAME           = "popup";
     public static final String COLUMN_ID            = "_id";
@@ -242,8 +250,8 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
         }
     );
     private final SQLiteOpenHelper mHelper;
-    private final SharedPreferences mPrefs;
-
+    private final File mFile;
+    
     public PrivacyImpactService(Context context) {
         super();
         mContext = context;
@@ -266,7 +274,26 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
                 onCreate(db);
             }
         };
-        mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        mFile = new File(Environment.getUserSystemDirectory(UserHandle.getCallingUserId()),PRIVACY_IMPACT_FILENAME);
+        synchronized (mFile) {
+            if (!mFile.exists()) {
+                AtomicFile aFile = new AtomicFile(mFile);
+                FileOutputStream fos = null;
+                try {
+                    fos = aFile.startWrite();
+                    fos.write(1);
+                    fos.close();
+                    aFile.finishWrite(fos);
+                } catch (IOException e) {
+                    Log.e(TAG, "Failed to persist privacy impact enabled status");
+                    if (fos != null) {
+                        aFile.failWrite(fos);
+                    }
+                }
+            }
+        }
+        
         Log.d(TAG, "Started PrivacyImpactService");
     }
 
@@ -329,21 +356,42 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
         Log.i(TAG, "Clearing Privacy Impact database");
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.remove(PREFS_ENABLED);
-        editor.apply();
+        setPrivacyImpactStatus(true);
     }
     
     public boolean isPrivacyImpactEnabled() {
-        boolean result = mPrefs.getBoolean(PREFS_ENABLED, true);
+        boolean result = true; // default
+        synchronized (mFile) {
+            AtomicFile aFile = new AtomicFile(mFile);
+            try {
+                byte[] res = aFile.readFully();
+                if (res.length > 0) {
+                    result = res[0] == 1;
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Failed to read privacy impact enabled status",e);
+            }
+        }
         Log.i(TAG, "isPrivacyImpactEnabled() = "+result);
         return result;
     }
     
     public void setPrivacyImpactStatus(boolean enabled) {
-        SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putBoolean(PREFS_ENABLED, enabled);
-        editor.apply();
+        synchronized (mFile) {
+            AtomicFile aFile = new AtomicFile(mFile);
+            FileOutputStream fos = null;
+            try {
+                fos = aFile.startWrite();
+                fos.write(enabled ? 1 : 0);
+                fos.close();
+                aFile.finishWrite(fos);
+            } catch (IOException e) {
+                Log.e(TAG, "Failed to persist privacy impact enabled status");
+                if (fos != null) {
+                    aFile.failWrite(fos);
+                }
+            }
+        }
         Log.i(TAG, "setPrivacyImpactStatus("+enabled+")");
     }
 }

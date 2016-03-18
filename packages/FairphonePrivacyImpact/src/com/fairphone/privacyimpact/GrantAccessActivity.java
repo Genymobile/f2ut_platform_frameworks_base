@@ -106,7 +106,8 @@ public class GrantAccessActivity extends FragmentActivity {
         // Validate it matched the system behaviour
         if( popupDisabled != AppSettingsDatabaseHelper.isPrivacyImpactEnabled()) {
             Log.e(TAG, "Value mismatch on Privacy Impact enabled status between settings preference and system service");
-            //TODO
+            // Make PrivacyImpactService match our settings
+            AppSettingsDatabaseHelper.setPrivacyImpactStatus(!popupDisabled);
         }
 
         // Has it been validated already?
