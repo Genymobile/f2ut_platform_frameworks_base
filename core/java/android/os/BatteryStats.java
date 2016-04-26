@@ -2066,7 +2066,11 @@ public abstract class BatteryStats implements Parcelable {
                 for (Map.Entry<String, ? extends Timer> ent : kernelWakelocks.entrySet()) {
                     sb.setLength(0);
                     printWakeLockCheckin(sb, ent.getValue(), rawRealtime, null, which, "");
-                    dumpLine(pw, 0 /* uid */, category, KERNEL_WAKELOCK_DATA, ent.getKey(),
+                    String name = ent.getKey();
+                    if (name.indexOf(',') >= 0) {
+                        name = name.replace(',', '_');
+                    }
+                    dumpLine(pw, 0 /* uid */, category, KERNEL_WAKELOCK_DATA, name,
                             sb.toString());
                 }
             }
