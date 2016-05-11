@@ -151,7 +151,7 @@ public class FairphoneClockView extends LinearLayout
 	};
 	@Override
 	public  void onWindowFocusChanged (boolean hasWindowFocus){
-		Log.wtf(TAG, "onWindowFocusChanged "+hasWindowFocus);
+		Log.d(TAG, "onWindowFocusChanged "+hasWindowFocus);
 		if (!hasWindowFocus && onDismissRunnable != null){
 			onDismissRunnable.run();
 			onDismissRunnable = null;

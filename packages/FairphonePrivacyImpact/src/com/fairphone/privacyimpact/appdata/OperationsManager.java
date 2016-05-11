@@ -50,7 +50,7 @@ public class OperationsManager {
                     }
                 }
             } catch (PackageManager.NameNotFoundException e) {
-                Log.wtf(TAG, "Unable to get package info for " + packageName + ". Reason " + e.getLocalizedMessage());
+                Log.e(TAG, "Unable to get package info for " + packageName + ". Reason " + e.getLocalizedMessage());
                 list = null;
                 packageInfo = null;
             }
