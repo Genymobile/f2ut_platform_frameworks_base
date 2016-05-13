@@ -90,7 +90,7 @@ public class TripleSwitchView {
                         Toast.makeText(mContext, resources.getString(R.string.notifications_priority).toUpperCase() + "\n" + resources.getString(R.string.notifications_priority_description), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Log.wtf(TAG, "Unknow triple switch state: " + mCurrentTripleSwitchState);
+                        Log.e(TAG, "Unknow triple switch state: " + mCurrentTripleSwitchState);
                         break;
                 }
             }
@@ -126,7 +126,7 @@ public class TripleSwitchView {
                 }
                 break;
             default:
-                Log.wtf(TAG, "Unknow triple switch state: " + mCurrentTripleSwitchState);
+                Log.e(TAG, "Unknow triple switch state: " + mCurrentTripleSwitchState);
                 break;
         }
     }

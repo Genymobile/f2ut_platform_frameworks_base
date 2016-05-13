@@ -77,7 +77,7 @@ public class GrantAccessActivity extends FragmentActivity {
     }
 
     private boolean showPrivacyImpact(final Intent startIntent) {
-        Log.wtf(TAG, "GrantAccessActivity - start showPrivacyImpact");
+        Log.d(TAG, "GrantAccessActivity - start showPrivacyImpact");
         
         Bundle extras = startIntent.getExtras();
         Intent originalIntent = (Intent) extras.get("originalIntent");
