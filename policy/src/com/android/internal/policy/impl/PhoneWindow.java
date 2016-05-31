@@ -1709,6 +1709,7 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
         return mDecor.superDispatchKeyEvent(event);
     }
 
+
     @Override
     public boolean superDispatchKeyShortcutEvent(KeyEvent event) {
         return mDecor.superDispatchKeyShortcutEvent(event);
@@ -2356,7 +2357,14 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                     }
                     return true;
                 }
-            }
+            } else if(event.getKeyCode() == KeyEvent.KEYCODE_CAMERA) {
+                final int action = event.getAction();
+                // ignore key up event 
+                    if (action == KeyEvent.ACTION_UP) {
+                        return true;
+                    }
+                }
+
 
             return super.dispatchKeyEvent(event);
         }
