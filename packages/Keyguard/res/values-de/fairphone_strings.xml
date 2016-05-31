@@ -6,10 +6,10 @@
     <string name="your_record_peace_of_mind">Dein Ruherekord war</string>
     <string name="minutes">Minuten</string>
     <string name="share">teilen</string>
-    <string name="battery_charge_will_last_until">Restliche Akkulaufzeit beträgt</string>
+    <string name="battery_charge_will_last_until">Batterieladung hält noch bis</string>
     <string name="battery_will_be_charged_at">Akku wird voll geladen sein um</string>
     <string name="battery_is_fully">Ende des Ladevorgangs</string>
-    <string name="make_it_last_longer">Standzeit verlängern</string>
+    <string name="make_it_last_longer">Standby-Zeit verlängern</string>
     <string name="your_fairphone_for">Dein Fairphone für</string>
     <string name="years">Jahre</string>
     <string name="months">Monate</string>
@@ -24,11 +24,11 @@
     <string name="week">Woche</string>
     <string name="been_in_peace_for">Ich habe Ruhe genossen für</string>
     <string name="peace_record_text">Ein neuer persönlicher Rekord!</string>
-    <string name="my_fairphone_is">Meine Fairphone ist</string>
+    <string name="my_fairphone_is">Mein Fairphone ist</string>
     <string name="old">alt!</string>
     <string name="share_to">Teilen mit</string>
     <string name="battery_charge_will_last">Batterieladung hält noch</string>
-    <string name="battery_will_be_charged_in">Akku wird voll geladen sein um</string>
+    <string name="battery_will_be_charged_in">Akku wird voll geladen sein in</string>
     <string name="unplug_your_charger">Trenn das Ladegerät</string>
     <string name="tomorrow">morgen</string>
 

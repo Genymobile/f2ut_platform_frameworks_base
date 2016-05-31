@@ -6,7 +6,7 @@
     <string name="your_record_peace_of_mind">Tu tiempo récord en paz</string>
     <string name="minutes">minutos</string>
     <string name="share">compartir</string>
-    <string name="battery_charge_will_last_until">La carga de la batería durará hasta</string>
+    <string name="battery_charge_will_last_until">Tu batería tendrá carga hasta las</string>
     <string name="battery_will_be_charged_at">La batería estará completamente cargada a las</string>
     <string name="battery_is_fully">Batería cargada</string>
     <string name="make_it_last_longer">Hazla durar más</string>
@@ -28,7 +28,7 @@
     <string name="old">!</string>
     <string name="share_to">Compartir con</string>
     <string name="battery_charge_will_last">La carga de la batería durará</string>
-    <string name="battery_will_be_charged_in">La batería estará completamente cargada a las</string>
+    <string name="battery_will_be_charged_in">La batería estará completamente cargada en</string>
     <string name="unplug_your_charger">Desenchufa tu cargador</string>
     <string name="tomorrow">mañana</string>
 

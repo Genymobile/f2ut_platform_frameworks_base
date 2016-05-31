@@ -6,7 +6,7 @@
     <string name="your_record_peace_of_mind">Je peace of mind-record is</string>
     <string name="minutes">minuten</string>
     <string name="share">deel</string>
-    <string name="battery_charge_will_last_until">Het opladen duurt tot</string>
+    <string name="battery_charge_will_last_until">Batterijlading gaat mee tot</string>
     <string name="battery_will_be_charged_at">De batterij is opgeladen om</string>
     <string name="battery_is_fully">Opladen is voltooid om</string>
     <string name="make_it_last_longer">Laat batterij langer meegaan</string>
@@ -27,8 +27,8 @@
     <string name="my_fairphone_is">Mijn Fairphone is</string>
     <string name="old">oud!</string>
     <string name="share_to">Deel met</string>
-    <string name="battery_charge_will_last">Batterij gaat mee tot</string>
-    <string name="battery_will_be_charged_in">De batterij is opgeladen om</string>
+    <string name="battery_charge_will_last">Batterij gaat mee</string>
+    <string name="battery_will_be_charged_in">De batterij is opgeladen over</string>
     <string name="unplug_your_charger">Ontkoppel de oplader</string>
     <string name="tomorrow">morgen</string>
 

@@ -6,7 +6,7 @@
     <string name="your_record_peace_of_mind">Votre record hors-ligne était</string>
     <string name="minutes">minutes</string>
     <string name="share">partager</string>
-    <string name="battery_charge_will_last_until">Le chargement de la batterie durera jusqu\'à</string>
+    <string name="battery_charge_will_last_until">La batterie durera jusqu\'à</string>
     <string name="battery_will_be_charged_at">Le chargement de la batterie sera terminé à</string>
     <string name="battery_is_fully">Chargement de la batterie terminé</string>
     <string name="make_it_last_longer">Faites la durer plus longtemps</string>
@@ -28,7 +28,7 @@
     <string name="old">!</string>
     <string name="share_to">Partager avec</string>
     <string name="battery_charge_will_last">La batterie durera</string>
-    <string name="battery_will_be_charged_in">Le chargement de la batterie sera terminé à</string>
+    <string name="battery_will_be_charged_in">Le chargement de la batterie sera terminé dans</string>
     <string name="unplug_your_charger">Débranchez votre chargeur</string>
     <string name="tomorrow">demain</string>
 
