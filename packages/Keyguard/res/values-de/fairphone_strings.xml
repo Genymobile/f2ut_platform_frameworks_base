@@ -29,7 +29,7 @@
     <string name="share_to">Teilen mit</string>
     <string name="battery_charge_will_last">Batterieladung hält noch</string>
     <string name="battery_will_be_charged_in">Akku wird voll geladen sein in</string>
-    <string name="unplug_your_charger">Trenn das Ladegerät</string>
+    <string name="unplug_your_charger">Ladegerät abstecken</string>
     <string name="tomorrow">morgen</string>
 
 </resources>
