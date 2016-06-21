@@ -139,8 +139,8 @@ public final class PowerManagerService extends SystemService
 
     // Default timeout in milliseconds.  This is only used until the settings
     // provider populates the actual default value (R.integer.def_screen_off_timeout).
-    private static final int DEFAULT_SCREEN_OFF_TIMEOUT = 15 * 1000;
-    private static final int DEFAULT_SLEEP_TIMEOUT = -1;
+    private static final int DEFAULT_SCREEN_OFF_TIMEOUT = 30 * 1000;
+    private static final int DEFAULT_SLEEP_TIMEOUT = 30000;
 
     // Screen brightness boost timeout.
     // Hardcoded for now until we decide what the right policy should be.
