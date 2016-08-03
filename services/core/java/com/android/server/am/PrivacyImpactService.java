@@ -24,10 +24,10 @@ import android.util.Log;
 
 public class PrivacyImpactService extends IPrivacyImpactService.Stub {
     private static final String TAG = "PrivacyImpactService";
-    
+
     private final String PRIVACY_IMPACT_FILENAME = "privacy_impact";
     private final boolean DEFAULT_ENABLED = true;
-    
+
     public static final String TABLE_NAME           = "popup";
     public static final String COLUMN_ID            = "_id";
     public static final String COLUMN_PACKAGE_NAME  = "name";
@@ -246,17 +246,18 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
             "com.drawelements.deqp.gles3",
             "com.drawelements.deqp.gles31",
             "com.replica.replicaisland",
+            "com.fairphone.psensor",
             "zzz.android.monkey"
         }
     );
     private final SQLiteOpenHelper mHelper;
     private final File mFile;
-    
+
     public PrivacyImpactService(Context context) {
         super();
         mContext = context;
         Log.i(TAG, "Starting PrivacyImpactService");
-        
+
         mHelper = new SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
             @Override
             public void onCreate(SQLiteDatabase db) {
@@ -293,7 +294,7 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
                 }
             }
         }
-        
+
         Log.d(TAG, "Started PrivacyImpactService");
     }
 
@@ -312,7 +313,7 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
             } catch (PackageManager.NameNotFoundException e) {
                 Log.w(TAG, "Can't determine if "+packageName+" is a system app.", e);
             }
-    
+
             if (!isSystemApp) {
                 SQLiteDatabase db = mHelper.getReadableDatabase();
                 Cursor cursor = db.query(
@@ -324,7 +325,7 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
                     null,
                     null
                 );
-    
+
                 cursor.moveToFirst();
                 show = cursor.getCount() == 0;
                 cursor.close();
@@ -351,14 +352,14 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
         int result = db.delete(TABLE_NAME, COLUMN_PACKAGE_NAME + " = ?", new String[]{packageName});
     }
 
-    
+
     public void clearPackagePrivacyData() {
         Log.i(TAG, "Clearing Privacy Impact database");
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
         setPrivacyImpactStatus(true);
     }
-    
+
     public boolean isPrivacyImpactEnabled() {
         boolean result = true; // default
         synchronized (mFile) {
@@ -375,7 +376,7 @@ public class PrivacyImpactService extends IPrivacyImpactService.Stub {
         Log.i(TAG, "isPrivacyImpactEnabled() = "+result);
         return result;
     }
-    
+
     public void setPrivacyImpactStatus(boolean enabled) {
         synchronized (mFile) {
             AtomicFile aFile = new AtomicFile(mFile);
