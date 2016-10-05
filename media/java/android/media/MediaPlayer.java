@@ -2042,7 +2042,7 @@ public class MediaPlayer implements SubtitleController.Listener
 
     private void scanInternalSubtitleTracks() {
         if (mSubtitleController == null) {
-            Log.e(TAG, "Should have subtitle controller already set");
+            Log.d(TAG, "Should have subtitle controller already set");
             return;
         }
 
