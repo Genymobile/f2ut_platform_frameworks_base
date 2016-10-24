@@ -702,7 +702,7 @@ android_media_MediaPlayer_native_setup(JNIEnv *env, jobject thiz, jobject weak_t
                                                             env, thiz, weak_this, listener);
        mp->setListener(extmedialistener);
     } else {
-      ALOGE("QCMediaPlayer mediaplayer NOT present");
+      ALOGD("QCMediaPlayer mediaplayer NOT present");
     }
 
     // Stow our new C++ MediaPlayer in an opaque field in the Java object.
