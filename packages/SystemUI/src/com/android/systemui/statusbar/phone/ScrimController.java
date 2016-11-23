@@ -236,13 +236,13 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
             }
         }
         
-        if (level <= 10) {
+        if (level <= 20) {
             return context.getResources().getDrawable(R.drawable.pink_gradient_20);
-        } else if (level <= 30) {
+        } else if (level <= 40) {
             return context.getResources().getDrawable(R.drawable.yellow_gradient_40);
-        } else if (level <= 50) {
+        } else if (level <= 60) {
             return context.getResources().getDrawable(R.drawable.green_gradient_60);
-        } else if (level <= 75) {
+        } else if (level <= 80) {
             return context.getResources().getDrawable(R.drawable.emerald_gradient_80);
         } else {
             return context.getResources().getDrawable(R.drawable.blue_gradient_100);
