@@ -46,10 +46,6 @@
         android:layout_height="match_parent"
         android:importantForAccessibility="no" />
 
-    <View android:id="@+id/scrim_mood"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <include layout="@layout/status_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar_height" />

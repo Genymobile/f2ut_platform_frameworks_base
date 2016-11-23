@@ -19,13 +19,10 @@ package com.android.systemui.statusbar.phone;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.content.BroadcastReceiver;
+import android.annotation.NonNull;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
@@ -51,13 +48,10 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
 
     private final ScrimView mScrimBehind;
     private final ScrimView mScrimInFront;
-    private final View mScrimMood;
     private final UnlockMethodCache mUnlockMethodCache;
 
     private boolean mKeyguardShowing;
     private float mFraction;
-    private Drawable mBatteryMood;
-    private BroadcastReceiver mBatteryLevelReceiver;
 
     private boolean mDarkenWhileDragging;
     private boolean mBouncerShowing;
@@ -79,26 +73,14 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
     private float mCurrentInFrontAlpha;
     private float mCurrentBehindAlpha;
 
-    public ScrimController(ScrimView scrimBehind, ScrimView scrimInFront, View scrimMood, boolean scrimSrcEnabled) {
+    public ScrimController(ScrimView scrimBehind, ScrimView scrimInFront, boolean scrimSrcEnabled) {
         mScrimBehind = scrimBehind;
         mScrimInFront = scrimInFront;
-        mScrimMood = scrimMood;
         final Context context = scrimBehind.getContext();
         mUnlockMethodCache = UnlockMethodCache.getInstance(context);
         mLinearOutSlowInInterpolator = AnimationUtils.loadInterpolator(context,
                 android.R.interpolator.linear_out_slow_in);
         mScrimSrcEnabled = scrimSrcEnabled;
-
-        mBatteryLevelReceiver = new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context context, Intent intent){
-                mBatteryMood = getMoodFromBattery(intent);
-                scheduleUpdate();
-            }
-        };
-        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        mBatteryMood = getMoodFromBattery(context.registerReceiver(null, batteryLevelFilter));
-        context.registerReceiver(mBatteryLevelReceiver, batteryLevelFilter);
     }
 
     public void setKeyguardShowing(boolean showing) {
@@ -180,11 +162,9 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
         if (mAnimateKeyguardFadingOut) {
             setScrimInFrontColor(0f);
             setScrimBehindColor(0f);
-            setScrimMood(null, 0f);
         } else if (!mKeyguardShowing && !mBouncerShowing) {
             updateScrimNormal();
             setScrimInFrontColor(0);
-            setScrimMood(null, 0f);
         } else {
             updateScrimKeyguard();
         }
@@ -198,54 +178,16 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
             fraction = (float) Math.pow(fraction, 0.8f);
             behindFraction = (float) Math.pow(behindFraction, 0.8f);
             setScrimInFrontColor(fraction * SCRIM_IN_FRONT_ALPHA);
-            float behindAlpha = behindFraction * SCRIM_BEHIND_ALPHA_KEYGUARD;
-            setScrimMood(mBatteryMood, behindAlpha);
-            if (mBatteryMood != null) {
-                setScrimBehindColor(0f);
-            } else {
-                setScrimBehindColor(behindAlpha);
-            }
+            setScrimBehindColor(behindFraction * SCRIM_BEHIND_ALPHA_KEYGUARD);
         } else if (mBouncerShowing) {
             setScrimInFrontColor(SCRIM_IN_FRONT_ALPHA);
             setScrimBehindColor(0f);
         } else {
             float fraction = Math.max(0, Math.min(mFraction, 1));
             setScrimInFrontColor(0f);
-            float behindAlpha = fraction
+            setScrimBehindColor(fraction
                     * (SCRIM_BEHIND_ALPHA_KEYGUARD - SCRIM_BEHIND_ALPHA_UNLOCKING)
-                    + SCRIM_BEHIND_ALPHA_UNLOCKING;
-            setScrimMood(mBatteryMood, behindAlpha);
-            if (mBatteryMood != null) {
-                setScrimBehindColor(0f);
-            } else {
-                setScrimBehindColor(behindAlpha);
-            }
-        }
-    }
-
-    private Drawable getMoodFromBattery(Intent batteryIntent) {
-        Context context = mScrimBehind.getContext();
-        int level = 100;
-        if (batteryIntent != null) {
-            int rawlevel = batteryIntent.getIntExtra("level", -1);
-            int scale = batteryIntent.getIntExtra("scale", -1);
-
-            // obtain the level at 0 - 100
-            if (rawlevel >= 0 && scale > 0) {
-                level = (rawlevel * 100) / scale;
-            }
-        }
-        
-        if (level <= 20) {
-            return context.getResources().getDrawable(R.drawable.pink_gradient_20);
-        } else if (level <= 40) {
-            return context.getResources().getDrawable(R.drawable.yellow_gradient_40);
-        } else if (level <= 60) {
-            return context.getResources().getDrawable(R.drawable.green_gradient_60);
-        } else if (level <= 80) {
-            return context.getResources().getDrawable(R.drawable.emerald_gradient_80);
-        } else {
-            return context.getResources().getDrawable(R.drawable.blue_gradient_100);
+                    + SCRIM_BEHIND_ALPHA_UNLOCKING);
         }
     }
 
@@ -274,25 +216,6 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener {
 
             // Eat touch events (unless dozing).
             mScrimInFront.setClickable(!mDozing);
-        }
-    }
-
-    private void setScrimMood(Drawable bg, float alpha) {
-        if(bg == null) {
-            mScrimMood.setBackgroundResource(0);
-            mScrimMood.setAlpha(0f);
-        } else {
-            Drawable curr = mScrimMood.getBackground();
-            if (curr != null) {
-                curr = ((TransitionDrawable) curr).getDrawable(1);
-            } else {
-                curr = bg;
-            }
-            TransitionDrawable td = new TransitionDrawable(new Drawable[]{curr, bg});
-            td.setCrossFadeEnabled(true);
-            td.startTransition(1000);
-            mScrimMood.setBackground(td);
-            mScrimMood.setAlpha(alpha);
         }
     }
 
