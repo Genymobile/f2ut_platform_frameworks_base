@@ -39,15 +39,15 @@ hostSources := $(commonSources)
 
 # For the host
 # =====================================================
-include $(CLEAR_VARS)
+#include $(CLEAR_VARS)
 
-LOCAL_MODULE:= libandroidfw
-LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS += -DSTATIC_ANDROIDFW_FOR_TOOLS
-LOCAL_SRC_FILES:= $(hostSources)
-LOCAL_C_INCLUDES := external/zlib
+#LOCAL_MODULE:= libandroidfw
+#LOCAL_MODULE_TAGS := optional
+#LOCAL_CFLAGS += -DSTATIC_ANDROIDFW_FOR_TOOLS
+#LOCAL_SRC_FILES:= $(hostSources)
+#LOCAL_C_INCLUDES := external/zlib
 
-include $(BUILD_HOST_STATIC_LIBRARY)
+#include $(BUILD_HOST_STATIC_LIBRARY)
 
 
 # For the device
